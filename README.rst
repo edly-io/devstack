@@ -205,7 +205,7 @@ then install composer in wordpress container.
 
     exit
 
-4. Add ``wordpress.edx.devstack.lms:8888`` in host file.
+4. Add ``127.0.0.1 wordpress.edx.devstack.lms`` in host file.
 5. Visit ``wordpress.edx.devstack.lms:8888``. It should prompt the WordPress installation screen.
 6. Fill it in with the following values
 
