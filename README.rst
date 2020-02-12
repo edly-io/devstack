@@ -205,9 +205,9 @@ then install composer in wordpress container.
 
     exit
 
-
-4. Visit ``localhost:8888``. It should prompt the WordPress installation screen.
-5. Fill it in with the following values
+4. Add ``wordpress.edx.devstack.lms:8888`` in host file.
+5. Visit ``wordpress.edx.devstack.lms:8888``. It should prompt the WordPress installation screen.
+6. Fill it in with the following values
 
 .. code:: sh
 
@@ -216,8 +216,8 @@ then install composer in wordpress container.
         Password: edx
         Email: edx@example.com
 
-6. Click Install and then login with the same credentials.
-7. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
+7. Click Install and then login with the same credentials.
+8. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
 
 .. code:: sh
 
@@ -226,7 +226,7 @@ then install composer in wordpress container.
     sudo chmod 0777  edly-wp-theme -R
     cd devstack
 
-7. Run wordpress provsion.
+9. Run wordpress provsion.
 
 .. code:: sh
 
@@ -239,6 +239,12 @@ then install composer in wordpress container.
         sudo apt-get install php7.2-xml
 
 and then run the provision again.
+
+10. Go to devstack folder and run `make lms-shell` and edit the config file ``../lms.env.json``. Change the below value
+
+.. code:: sh
+
+        "SESSION_COOKIE_DOMAIN": ".edx.devstack.lms"
 
 
 To setup **Wordpress Pages** (Home, Blog, Courses, Instructors, About, Contact, FAQ) go to Wordpress panel and do the following steps for each page
@@ -338,21 +344,21 @@ To setup the single sing on(SSO) on WordPress.  Follow the below steps
 
 - Add new client.
 
-- Select `discovery_worker` in Users field
+- Select ``discovery_worker`` in Users field
 
-- Add `edly-wordpress` in Name field
+- Add ``edly-wordpress`` in Name field
 
-- Add `http://localhost:8888` in Url field
+- Add ``http://wordpress.edx.devstack.lms:8888`` in Url field
 
-- Add `http://localhost:8888` in Redirect Uri field
+- Add ``http://wordpress.edx.devstack.lms:8888`` in Redirect Uri field
 
-- Add `edly-wordpress-key` in Client Id field
+- Add ``edly-wordpress-key`` in Client Id field
 
-- Add `edly-wordpress-secret` in Client Secret
+- Add ``edly-wordpress-secret`` in Client Secret
 
-- Select `Confidential Web applications` in Client type field
+- Select ``Confidential Web applications`` in Client type field
 
-- Add `http://localhost:8888/logout` in Logout uri field.
+- Add ``http://wordpress.edx.devstack.lms:8888/logout`` in Logout uri field.
 
 
 5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
