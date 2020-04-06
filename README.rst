@@ -144,7 +144,7 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
    tenants (for multi-tenancy).
 
    **NOTE:** When running the provision command, databases for ecommerce and edxapp
-   will be dropped and recreated. 
+   will be dropped and recreated.
    Also, Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set.
 
    The username and password for the superusers are both ``edx``. You can access
@@ -208,6 +208,148 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
     make dev.up
 
+Install edly-panel-edx-app
+--------------------------
+
+Install the edly edx panel app in ``lms-shell`` by following instructions on https://github.com/edly-io/edly-panel-edx-app.
+
+Setup Edly Open edX theme
+-------------------------
+
+1. Go to the edly directory.
+2. Clone edly-edx-themes repo in the src directory.
+
+.. code:: sh
+
+    https://github.com/edly-io/edly-edx-themes.git
+
+4. Checkout to develop branch if its not already checked out.
+
+5. Copy St-lutherx and st-normanx folders to ``edx/edx-platform/themes`` directory.
+
+Set up Edly Open edX theme for LMS
+**********************************
+
+6. Go to devstack directory and get into lms container.
+
+.. code:: sh
+
+    cd devstack
+    make lms-shell
+
+
+7. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
+    ]
+
+8. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+
+9. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+10. Restart lms container.
+
+.. code:: sh
+
+    make lms-restart
+
+11. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
+12. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
+13. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
+
+Set up Edly Open edX theme for Studio
+*************************************
+
+1. Go to devstack directory and get into studio container.
+
+.. code:: sh
+
+    cd devstack
+    make studio-shell
+
+
+2. Edit the ``/edx/app/edxapp/cms.env.json`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
+    ]
+
+3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+5. Restart studio container.
+
+.. code:: sh
+
+    make studio-restart
+
+6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
+
+Set up Edly Open edX theme for Ecommerce
+****************************************
+
+1. Go to devstack directory and get into ecommerce container.
+
+.. code:: sh
+
+    cd devstack
+    make ecommerce-shell
+
+
+2. Edit the ``/edx/etc/ecommerce.yml`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    COMPREHENSIVE_THEME_DIRS:
+    - /edx/src/edly-edx-themes/st-lutherx/ecommerce
+    - /edx/src/edly-edx-themes/st-normanx/ecommerce
+
+3. Update assets in the docker shell from the ``/edx/app/ecommerce/ecommerce`` folder using these commands.
+
+.. code:: sh
+
+    python manage.py update_assets
+    make requirements
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+
+5. Restart ecommerce container.
+
+.. code:: sh
+
+    docker-compose restart ecommerce
+
+6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx``.
+
 
 WordPress Setup
 ---------------
@@ -230,6 +372,8 @@ Gulp should be installed before proceeding further (you may need to skip sudo if
 
 .. code:: sh
 
+    brew install php@7.2
+    curl -s https://getcomposer.org/installer | php
     sudo mv composer.phar /usr/local/bin/composer
 
 
@@ -327,7 +471,7 @@ Steps to **setup ``Home``** page are shown below for explainatory purposes.
 6. In the widget area, click on ``directory`` icon.
 7. Go to "My Template" tab.
 8. Click on "Import Template" icon in upper left corner of the section
-9. Now select ``<devstack-dir>/edly-wp-theme/config-files/elementor-home.json`` file and import it.
+9. Now select ``<devstack-dir>/edly-wp-theme/theme-name/config-files/elementor-home.json`` file and import it.
 10. Click on "Insert" button for ``Home`` template that we have just imported.
 11. Click on "Edit Section" icon of the first widget appeared.
 12. From the sidebar, go to "style" tab and upload an image of your choice.
@@ -415,153 +559,11 @@ To setup the single sing on(SSO) on WordPress.  Follow the below steps
 
 5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
 
-Install edly-panel-edx-app
---------------------------
-
-Install the edly edx panel app in ``lms-shell`` by following instructions on https://github.com/edly-io/edly-panel-edx-app.
-
-Setup Edly Open edX theme
--------------------------
-
-1. Go to the edly directory.
-2. Clone edly-edx-themes repo in the src directory.
-
-.. code:: sh
- 
-    https://github.com/edly-io/edly-edx-themes.git
-
-4. Checkout to develop branch if its not already checked out.
-
-5. Copy St-lutherx and st-normanx folders to ``edx/edx-platform/themes`` directory.
-
-Set up Edly Open edX theme for LMS
-**********************************
-
-6. Go to devstack directory and get into lms container.
-
-.. code:: sh
-
-    cd devstack
-    make lms-shell
-
-
-7. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container and set the following 
-variables to the following values.
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
-    "COMPREHENSIVE_THEME_DIRS": [
-        "/edx/app/edxapp/edx-platform/themes",
-        "/edx/src/edly-edx-themes"
-    ]
-
-8. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
-
-.. code:: sh
-
-    paver update_assets
-
-
-9. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-10. Restart lms container.
-
-.. code:: sh
-
-    make lms-restart
-
-11. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
-12. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
-13. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
-
-Set up Edly Open edX theme for Studio
-*************************************
-
-1. Go to devstack directory and get into studio container.
-
-.. code:: sh
-
-    cd devstack
-    make studio-shell
-
-
-2. Edit the ``/edx/app/edxapp/cms.env.json`` file in the docker container and set the following 
-variables to the following values.
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
-    "COMPREHENSIVE_THEME_DIRS": [
-        "/edx/app/edxapp/edx-platform/themes",
-        "/edx/src/edly-edx-themes"
-    ]
-
-3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
-
-.. code:: sh
-
-    paver update_assets
-
-
-4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-5. Restart studio container.
-
-.. code:: sh
-
-    make studio-restart
-
-6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
-7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
-8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
-
-Set up Edly Open edX theme for Ecommerce
-****************************************
-
-1. Go to devstack directory and get into ecommerce container.
-
-.. code:: sh
-
-    cd devstack
-    make ecommerce-shell
-
-
-2. Edit the ``/edx/etc/ecommerce.yml`` file in the docker container and set the following 
-variables to the following values.
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
-    COMPREHENSIVE_THEME_DIRS:
-    - /edx/src/edly-edx-themes/st-lutherx/ecommerce
-    - /edx/src/edly-edx-themes/st-normanx/ecommerce
-
-3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using these commands.
-
-.. code:: sh
-
-    python manage.py update_assets
-    make requirements
-
-4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-
-5. Restart ecommerce container.
-
-.. code:: sh
-
-    docker-compose restart ecommerce
-
-6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
-7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
-8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx``.
-
 
 Setting up edly panel
 ---------------------
 
-1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the 
+1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the
 edly devstack ironwood branch.
 
 2. Clone edly panel backend locally in a separate folder than edly.
@@ -600,6 +602,18 @@ and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
             "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
         }
 
+
+
+Enable Course Creation
+----------------------
+
+Go to ``<devstack-dir>/edx-platform/cms/envs/common.py`` and add
+the following code to ``FEATURES`` dictionary.
+
+.. code:: python
+
+    # show organizations in studio while creating new course
+    'ORGANIZATIONS_APP': True
 
 Other useful commands
 ---------------------
@@ -1146,7 +1160,7 @@ Tests can also be run individually. Example:
     pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
-~~~~~~~~~~~~~~~~~~~~~
+**********************
 
 If you want to see the browser being automated for JavaScript or bok-choy tests,
 you can connect to the container running it via VNC.
@@ -1195,14 +1209,14 @@ Troubleshooting: General Tips
 If you are having trouble with your containers, this sections contains some troubleshooting tips.
 
 Check the logs
-~~~~~~~~~~~~~~
+**************
 
 If a container stops unexpectedly, you can look at its logs for clues::
 
     docker-compose logs lms
 
 Update the code and images
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+***************************
 
 Make sure you have the latest code and Docker images.
 
@@ -1225,14 +1239,14 @@ repositories (e.g. edx-platform, ecommerce, etc.). Make sure you are using the
 latest code from the master branches, or have rebased your branches on master.
 
 Clean the containers
-~~~~~~~~~~~~~~~~~~~~
+********************
 
 Sometimes containers end up in strange states and need to be rebuilt. Run
 ``make down`` to remove all containers and networks. This will **NOT** remove your
 data volumes.
 
 Reset
-~~~~~
+*****
 
 Sometimes you just aren't sure what's wrong, if you would like to hit the reset button
 run ``make dev.reset``.
@@ -1248,13 +1262,13 @@ Running this command will perform the following steps:
 It's good to run this before asking for help.
 
 Start over
-~~~~~~~~~~
+**********
 
 If you want to completely start over, run ``make destroy``. This will remove
 all containers, networks, AND data volumes.
 
 Resetting a database
-~~~~~~~~~~~~~~~~~~~~
+********************
 
 In case you botched a migration or just want to start with a clean database.
 
@@ -1275,7 +1289,7 @@ Troubleshooting: Common issues
 ------------------------------
 
 File ownership change
-~~~~~~~~~~~~~~~~~~~~~
+**********************
 
 If you notice that the ownership of some (maybe all) files have changed and you
 need to enter your root password when editing a file, you might
@@ -1291,7 +1305,7 @@ To fix this situation, change the owner back to yourself outside of the containe
   $ sudo chown <user>:<group> -R .
 
 Running LMS commands within a container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+****************************************
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
 ``devstack``, which is the settings flag for vagrant-based devstack instances.
@@ -1303,7 +1317,7 @@ the ``devstack_docker`` flag. For example:
   $ paver update_assets --settings=devstack_docker
 
 Resource busy or locked
-~~~~~~~~~~~~~~~~~~~~~~~
+************************
 
 While running ``make static`` within the ecommerce container you could get an error
 saying:
@@ -1315,7 +1329,7 @@ saying:
 To fix this, remove the directory manually outside of the container and run the command again.
 
 No space left on device
-~~~~~~~~~~~~~~~~~~~~~~~
+************************
 
 If you see the error ``no space left on device`` on a Mac, Docker has run
 out of space in its Docker.qcow2 file.
@@ -1346,7 +1360,7 @@ this is not a guarantee.
 
 
 No such file or directory
-~~~~~~~~~~~~~~~~~~~~~~~~~
+**************************
 
 While provisioning, some have seen the following error:
 
@@ -1372,7 +1386,7 @@ Once you get past the issue, you should be able to continue to use sync versions
 of the make targets.
 
 Memory Limit
-~~~~~~~~~~~~
+************
 
 While provisioning, some have seen the following error:
 
@@ -1386,7 +1400,7 @@ this error is due to running out of memory.  Try increasing the memory
 allocated to Docker.
 
 Docker is using lots of CPU time when it should be idle
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*********************************************************
 
 On the Mac, this often manifests as the ``hyperkit`` process using a high
 percentage of available CPU resources.  To identify the container(s)
@@ -1416,7 +1430,7 @@ Performance
 -----------
 
 Improve Mac OSX Performance with docker-sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**********************************************
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
@@ -1435,7 +1449,7 @@ If you are using macOS, please follow the `Docker Sync installation
 instructions`_ before provisioning.
 
 Docker Sync Troubleshooting tips
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*********************************
 Check your version and make sure you are running 0.4.6 or above:
 
 .. code:: sh
@@ -1457,7 +1471,7 @@ If you are having issues with docker sync, try the following:
     docker-sync clean
 
 Cached Consistency Mode
-~~~~~~~~~~~~~~~~~~~~~~~
+************************
 
 The performance improvements provided by `cached consistency mode for volume
 mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's

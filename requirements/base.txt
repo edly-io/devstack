@@ -24,3 +24,4 @@ six==1.11.0               # via docker, docker-compose, docker-pycreds, dockerpt
 texttable==0.9.1          # via docker-compose
 urllib3==1.22             # via requests
 websocket-client==0.47.0  # via docker, docker-compose
+pygments==2.6.1           # Need this pacakge to render readme.rst
