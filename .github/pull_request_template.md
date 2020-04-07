@@ -8,7 +8,7 @@ https://edlyio.atlassian.net/browse/EDLY-****
 1. Open page A
 2. Do thing B
 3. Expect C to happen
-4. If D happend instead - check failed.
+4. If D happened instead - check failed.
 
 **Merge checklist:**
 
@@ -22,4 +22,4 @@ https://edlyio.atlassian.net/browse/EDLY-****
 - [ ] Delete working branch (if not needed anymore)
 
 
-**Note:** Please add screenshots for any view able change.
+**Note:** Please add screenshots for any viewable change.
