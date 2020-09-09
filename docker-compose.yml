@@ -255,6 +255,8 @@ services:
       - mysql
     ports:
       - "8888:80"
+    volumes:
+       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
   panel_frontend:
     command: bash -c 'npm install && npm run start'
