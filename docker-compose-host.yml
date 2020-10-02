@@ -42,6 +42,7 @@ services:
       - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
       - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-lutherx:/var/www/html/wp-content/themes/st-lutherx:cached
       - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-normanx:/var/www/html/wp-content/themes/st-normanx:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/adroit:/var/www/html/wp-content/themes/adroit:cached
   panel_frontend:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edly-panel-frontend:/var/www/html/edly-panel-frontend:cached
