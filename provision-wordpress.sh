@@ -47,6 +47,7 @@ php wp-cli.phar config set 'DISCOVERY_CLIENT_ID' 'discovery-key' --allow-root &&
 php wp-cli.phar config set 'DISCOVERY_CLIENT_SECRET' 'discovery-secret' --allow-root &&
 php wp-cli.phar config set 'IS_LOGGED_IN_COOKIE' 'edxloggedin' --allow-root &&
 php wp-cli.phar config set 'USER_INFO_COOKIE' 'edx-user-info' --allow-root &&
+php wp-cli.phar config set 'WP_ENVIRONMENT_TYPE' 'local' --allow-root &&
 rm -rf wp-cli.phar
 "
 
