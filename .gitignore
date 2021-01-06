@@ -108,3 +108,5 @@ options.local.mk
 
 # emacs
 *~
+# vscode
+.vscode/

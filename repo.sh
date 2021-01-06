@@ -60,6 +60,14 @@ non_release_ssh_repos=(
     "git@github.com:edx/frontend-app-program-console.git"
 )
 
+edly_repos=(
+    "https://github.com/edly-io/edly-wp-plugin.git"
+    "https://github.com/edly-io/edly-wp-theme.git"
+    "https://github.com/edly-io/edly-edx-themes.git"
+    "https://github.com/edly-io/edly-panel-frontend.git"
+)
+
+
 private_repos=(
     # Needed to run whitelabel tests.
     "https://github.com/edx/edx-themes.git"
@@ -105,6 +113,7 @@ _clone ()
 {
 
     repos_to_clone=("$@")
+
     for repo in "${repos_to_clone[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
@@ -131,7 +140,6 @@ _clone ()
             fi
         fi
     done
-    cd - &> /dev/null
 }
 
 _checkout_and_update_branch ()
@@ -149,7 +157,8 @@ _checkout_and_update_branch ()
 
 clone ()
 {
-    _clone "${repos[@]}"
+    _clone "${repos[@]}" "${edly_repos[@]}"
+    _checkout "${repos[@]}"
 }
 
 clone_ssh ()
@@ -165,7 +174,7 @@ clone_private ()
 reset ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in "${repos[@]}" "${edly_repos[@]}"
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
@@ -182,7 +191,7 @@ reset ()
 status ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in ["${repos[@]}" "${edly_repos[@]}"]
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"

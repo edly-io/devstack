@@ -61,6 +61,16 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/frontend-app-learning:/edx/app/frontend-app-learning:cached
       - frontend_app_learning_node_modules:/edx/app/frontend-app-learning/node_modules
+  wordpress:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-lutherx:/var/www/html/wp-content/themes/st-lutherx:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-normanx:/var/www/html/wp-content/themes/st-normanx:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/adroit:/var/www/html/wp-content/themes/adroit:cached
+  panel_frontend:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edly-panel-frontend:/var/www/html/edly-panel-frontend:cached
+      - panel_node_modules:/var/www/html/edly-panel-frontend/node_modules
 
 volumes:
   credentials_node_modules:
@@ -73,3 +83,4 @@ volumes:
   program_console_node_modules:
   frontend_app_publisher_node_modules:
   frontend_app_learning_node_modules:
+  panel_node_modules:

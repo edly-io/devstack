@@ -49,3 +49,13 @@ syncs:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-learning/'
     sync_excludes: [ '.git', '.idea' ]
+  wordpress-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../edly-wp-plugin/'
+    src: '../edly-wp-theme/'
+    sync_excludes: [ '.git', '.idea', '.sass-cache', 'vendor']
+
+  panel_frontend-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../edly-panel-frontend/'
+    sync_excludes: ['.idea']

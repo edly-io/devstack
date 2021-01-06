@@ -311,6 +311,8 @@ services:
       # - "18031:18031"
     volumes:
       - edxapp_lms_assets:/edx/var/edxapp/staticfiles/
+      - ../src/edly-edx-themes/st-lutherx:/edx/app/edxapp/edx-platform/themes/st-lutherx
+      - $HOME/.ssh:/root/.ssh
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
@@ -488,6 +490,33 @@ services:
       - "2000:2000"
     depends_on:
       - lms
+    environment:
+      - NODE_ENV=development
+
+  wordpress:
+    container_name: edx.devstack.wordpress
+    image: wordpress
+    environment:
+          WORDPRESS_DB_HOST: edx.devstack.mysql
+          WORDPRESS_DB_NAME: 'wordpress'
+          WORDPRESS_DB_USER: 'wordpress001'
+          WORDPRESS_DB_PASSWORD: 'password'
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
+    volumes:
+       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+  panel_frontend:
+    command: bash -c 'npm install && npm run start'
+    container_name: edly.devstack.panel_frontend
+    working_dir: '/var/www/html/edly-panel-frontend'
+    stdin_open: true
+    tty: true
+    image: node:10
+    ports:
+      - "3030:3030"
 
 volumes:
   discovery_assets:

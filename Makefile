@@ -133,6 +133,11 @@ dev.provision: check-memory dev.clone.ssh dev.provision.services stop ## Provisi
 
 dev.cache-programs: ## Copy programs from Discovery to Memcached for use in LMS.
 	$(WINPTY) bash ./programs/provision.sh cache
+dev.wordpress.provision:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-wordpress.sh
+
+dev.provision.xqueue.run:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
 
 dev.provision.xqueue: dev.provision.services.xqueue
 
@@ -436,3 +441,9 @@ feature-toggle-state: ## Gather the state of feature toggles configured for vari
 
 selfcheck: ## check that the Makefile is well-formed
 	@echo "The Makefile is well-formed."
+stop-extra:
+	docker stop edx.devstack.credentials
+	docker stop edx.devstack.firefox
+	docker stop edx.devstack.chrome
+	docker stop edx.devstack.forum
+	docker stop edx.devstack.edx_notes_api
