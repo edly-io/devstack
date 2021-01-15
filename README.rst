@@ -3,7 +3,6 @@ Edly Devstack |Build Status|
 
 Get up and running quickly with Edly services.
 
-<<<<<<< HEAD
 This project replaces the older Vagrant-based devstack with a
 multi-container approach driven by `Docker Compose`_.
 
@@ -39,13 +38,10 @@ FYI
 You should run all ``make`` commands described below on your local machine, *not*
 from within a VM (virtualenvs are ok, and in fact recommended) as these commands
 are for standing up a new docker based VM.
-=======
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 
 Prerequisites
 -------------
 
-<<<<<<< HEAD
 You will need to have the following installed:
 
 - make
@@ -53,9 +49,6 @@ You will need to have the following installed:
 - docker
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
-=======
-This project requires `docker-ce`_ **17.06+**.  We recommend Docker Stable, but
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 Docker Edge should work as well.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
@@ -72,17 +65,11 @@ a minimum of 2 CPUs and 8GB of memory does work.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
-<<<<<<< HEAD
-If you are using Linux, use the ``overlay2`` storage driver, kernel version
-4.0+ and *not* ``overlay``. To check which storage driver your
-``docker-daemon`` uses, run the following command.
-=======
-
 **NOTE:** After installing docker, user must be added to user group ``docker`` (Not required for MAC)
 
 .. code:: sh
 
-   sudo usermod -aG docker <USERNAME>
+    sudo usermod -aG docker <USERNAME>
 
 then reboot the system and check if docker is installed correctly by running the command:
 
@@ -90,10 +77,9 @@ then reboot the system and check if docker is installed correctly by running the
 
     docker --version
 
-Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
-is tested and supported, but requires kernel version 4.0+.  Check which storage
-driver your docker-daemon is configured to use:
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
+If you are using Linux, use the ``overlay2`` storage driver, kernel version
+4.0+ and *not* ``overlay``. To check which storage driver your
+``docker-daemon`` uses, run the following command.
 
 .. code:: sh
 
@@ -115,31 +101,23 @@ This will stop any running devstack containers, pull the latest images, and then
 
 Get You SSh Keys Added to Edly
 ------------------------------
-
 Please get access to edly's organization prior to setting up edly devstack.
-
 Basically we need ssh keys which are enabled to access the edly's private repos.
 Since at Edly we individually give permissions to our developers so avoid getting access denied error,
 we now mount the default directory of ssh keys on Edly developers system, present at ``$HOME/.ssh:/root/.ssh``
-
 This way a developer can install private edly apps,
 e.g. `pip install git+ssh://git@github.com/edly-io/edly-panel-edx-app.git#egg=edly-panel-app` directly from ``LMS Shell``.
-
 
 Getting Started
 ---------------
 
 All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`.
 
-<<<<<<< HEAD
-1. Install the requirements inside of a `Python virtualenv`_.
-=======
+
 **NOTE:** Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
-
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 
 1. Make a directory for Edly devstack(preferably in the home directory)
 
@@ -149,15 +127,9 @@ a minimum of 2 CPUs and 6GB of memory works well.
     cd ~/workspace/edly-setup
 
 2. Make a ``virutalenv`` for edly and activate it.
-
 **NOTE** Ensure that the installed python3 version is python 3.6.5 as the edly panel edx app doesn't work for later
 versions.
 
-<<<<<<< HEAD
-   This will install docker-compose and other utilities into your virtualenv.
-
-2. The Docker Compose file mounts a host volume for each service's executing
-=======
 .. code:: sh
 
     virtualenv -p python3 edly_env
@@ -165,7 +137,7 @@ versions.
     mkdir edly
     cd edly
 
-3. Clone Edly devstack and checkout ``edly/i`` branch and export ``OPENEDX_RELEASE`` environment variable.
+3. Clone Edly devstack and checkout ``edly/j`` branch and export ``OPENEDX_RELEASE`` environment variable.
 Also, turn off git permission tracking globally.
 
 .. code:: sh
@@ -173,26 +145,26 @@ Also, turn off git permission tracking globally.
     git clone https://github.com/edly-io/devstack.git
     cd devstack
     git checkout edly/i
-    export OPENEDX_RELEASE=ironwood.master
+    export OPENEDX_RELEASE=juniper.master
     git config --global core.fileMode false
 
-4. Install the requirements.
+4. Install the requirements inside of a `Python virtualenv`_.
 
-.. code:: sh
+   .. code:: sh
 
-    make requirements
+       make requirements
+
+   This will install docker-compose and other utilities into your virtualenv.
 
 5. The Docker Compose file mounts a host volume for each service's executing
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
    code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
    ``~/workspace/ecommerce``, etc. These repos can be cloned with the command
    below.
 
-.. code:: sh
+   .. code:: sh
 
-<<<<<<< HEAD
        make dev.clone  # or, `make dev.clone.ssh` if you have SSH keys set up.
 
    You may customize where the local repositories are found by setting the
@@ -200,45 +172,50 @@ Also, turn off git permission tracking globally.
 
    (macOS only) Share the cloned service directories in Docker, using
    **Docker -> Preferences -> File Sharing** in the Docker menu.
-=======
-    make dev.clone
-
-You may customize where the local repositories are found by setting the ``DEVSTACK_WORKSPACE`` environment variable.
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
-
-Be sure to share the cloned directories in the Docker -> Preferences... -> File Sharing box.
 
 6. Pull any changes made to the various images on which the devstack depends.
 
-<<<<<<< HEAD
+   .. code:: sh
+
        make dev.pull
 
-3. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
+7. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
     .. code:: sh
 
         make dev.nfs.setup
 
-=======
-.. code:: sh
 
-    make pull
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
-
-7. Run the provision command, if you haven't already, to configure the various
+8. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
    **NOTE:** When running the provision command, databases for ecommerce and edxapp
    will be dropped and recreated.
-   Also, Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set.
 
    The username and password for the superusers are both ``edx``. You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-.. code:: sh
+   Default:
 
-    make dev.provision
+   .. code:: sh
+
+       make dev.provision
+
+   Provision using `docker-sync`_:
+
+   .. code:: sh
+
+       make dev.sync.provision
+
+     Provision using NFS:
+
+   .. code:: sh
+
+       make dev.nfs.provision
+
+   This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
+
 
 9. Go into `edx-platform` directory and check if edly-io remote is added.
 
@@ -249,27 +226,17 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
 10. If remote is not added, add it.
 
-<<<<<<< HEAD
-     Provision using NFS:
-
-   .. code:: sh
-
-       make dev.nfs.provision
-
-   This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
-=======
 .. code:: sh
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 
     git remote add edly git@github.com:edly-io/edx-platform.git
     git remote -v
 
-11. Now that edx-platform edly remote has been added, checkout into develop branch and make a pull.
+11. Now that edx-platform edly remote has been added, checkout into develop-juniper branch and make a pull.
 
 .. code:: sh
 
-    git checkout develop
-    git pull edly develop
+    git checkout develop-juniper
+    git pull edly develop-juniper
 
 12. Go into `ecommerce` directory and check if edly-io remote is added.
 
@@ -285,531 +252,37 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
     git remote add edly git@github.com:edly-io/ecommerce.git
     git remote -v
 
-14. Now that ecommerce edly remote has been added, checkout into develop branch and make a pull.
+14. Now that ecommerce edly remote has been added, checkout into develop-juniper branch and make a pull.
 
 .. code:: sh
 
-    git checkout develop
-    git pull edly develop
+    git checkout develop-juniper
+    git pull edly develop-juniper
     cd ../devstack
 
-15. Start the services. This command will mount the repositories under the DEVSTACK\_WORKSPACE directory.
+15. Start the services. This command will mount the repositories under the
+    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
-   Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set each time
-   this command is run.
 
-.. code:: sh
+   Default:
 
-    make dev.up
+   .. code:: sh
 
-Install edly-panel-edx-app
---------------------------
+       make dev.up
 
-Install the edly edx panel app in ``lms-shell`` by following instructions on https://github.com/edly-io/edly-panel-edx-app.
+   Start using `docker-sync`_:
 
-Setup Edly Open edX theme
--------------------------
+   .. code:: sh
 
-1. Go to the edly directory.
-2. Clone edly-edx-themes repo in the src directory.
+       make dev.sync.up
 
-.. code:: sh
-
-    https://github.com/edly-io/edly-edx-themes.git
-
-4. Checkout to develop branch if its not already checked out.
-
-5. Copy St-lutherx and st-normanx folders to ``edx/edx-platform/themes`` directory.
-
-Set up Edly Open edX theme for LMS
-**********************************
-
-6. Go to devstack directory and get into lms container.
-
-.. code:: sh
-
-    cd devstack
-    make lms-shell
-
-
-7. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container and set the following
-variables to the following values.
-
-.. code:: json
-
-    "COMPREHENSIVE_THEME_DIRS": [
-        "/edx/app/edxapp/edx-platform/themes",
-        "/edx/src/edly-edx-themes"
-    ]
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
-8. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
-
-.. code:: sh
-
-    paver update_assets
-
-
-9. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-10. Restart lms container.
-
-.. code:: sh
-
-    make lms-restart
-
-11. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
-12. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
-13. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
-14. Go to http://localhost:18000/admin/site_configuration/siteconfiguration/ and add a new site configuration with following site config values and mark it enabled.
-
-**Site:** ``http://localhost:18000``
-
-**Values:**
-
-.. code:: json
-
-    {
-      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
-      "SERVICES_COOKIE_EXPIRY":"360",
-      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
-      "COLORS":{
-        "primary":"#3E99D4",
-        "secondary":"#3E99D4"
-      },
-      "FONTS":{
-        "base-font":"Open Sans, sans-serif",
-        "heading-font":"Open Sans, sans-serif",
-        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      },
-      "BRANDING":{
-        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
-        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
-        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
-      }
-    }
-
-For more details see `Site configurations`_
-
-Set up Edly Open edX theme for Studio
-*************************************
-
-1. Go to devstack directory and get into studio container.
-
-.. code:: sh
-
-    cd devstack
-    make studio-shell
-
-
-2. Edit the ``/edx/app/edxapp/cms.env.json`` file in the docker container and set the following
-variables to the following values.
-
-.. code:: json
-
-    "COMPREHENSIVE_THEME_DIRS": [
-        "/edx/app/edxapp/edx-platform/themes",
-        "/edx/src/edly-edx-themes"
-    ]
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
-3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
-
-.. code:: sh
-
-    paver update_assets
-
-
-4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-5. Restart studio container.
-
-.. code:: sh
-
-    make studio-restart
-
-6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
-7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
-8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
-9. Go to http://localhost:18010/admin/site_configuration/siteconfiguration/ and add a new site configuration with following site config values and mark it enabled.
-
-**Site:** ``http://localhost:18010``
-
-**Values:**
-
-.. code:: json
-
-    {
-      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
-      "SERVICES_COOKIE_EXPIRY":"360",
-      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
-      "COLORS":{
-        "primary":"#3E99D4",
-        "secondary":"#3E99D4"
-      },
-      "FONTS":{
-        "base-font":"Open Sans, sans-serif",
-        "heading-font":"Open Sans, sans-serif",
-        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      },
-      "BRANDING":{
-        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
-        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
-        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
-      }
-    }
-
-For more details see `Site configurations`_
-
-Set up Edly Open edX theme for Ecommerce
-****************************************
-
-1. Go to devstack directory and get into ecommerce container.
-
-.. code:: sh
-
-    cd devstack
-    make ecommerce-shell
-
-
-2. Edit the ``/edx/etc/ecommerce.yml`` file in the docker container and set the following
-variables to the following values.
-
-.. code:: json
-
-    COMPREHENSIVE_THEME_DIRS:
-    - /edx/src/edly-edx-themes/st-lutherx/ecommerce
-    - /edx/src/edly-edx-themes/st-normanx/ecommerce
-
-.. code:: json
-
-    "ENABLE_COMPREHENSIVE_THEMING": true
-
-<<<<<<< HEAD
    Start using NFS:
 
    .. code:: sh
 
        make dev.nfs.up
 
-=======
-3. Update assets in the docker shell from the ``/edx/app/ecommerce/ecommerce`` folder using these commands.
-
-.. code:: sh
-
-    python manage.py update_assets
-    make requirements
-
-4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-
-5. Restart ecommerce container.
-
-.. code:: sh
-
-    docker-compose restart ecommerce
-
-6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
-7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
-8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx-ecommerce``.
-9. Go to http://localhost:18130/admin/core/siteconfiguration/ and edit the following value of site configuration.
-
-**Edly client theme branding settings:**
-
-.. code:: json
-
-    {
-      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
-      "SERVICES_COOKIE_EXPIRY":"360",
-      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
-      "COLORS":{
-        "primary":"#3E99D4",
-        "secondary":"#3E99D4"
-      },
-      "FONTS":{
-        "base-font":"Open Sans, sans-serif",
-        "heading-font":"Open Sans, sans-serif",
-        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      },
-      "BRANDING":{
-        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
-        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
-        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
-      }
-    }
-
-For more details see `Site configurations`_
-
-10. Get into ecommerce container and run the following command.
-
-.. code:: sh
-
-    ./manage.py migrate core
-
-
-WordPress Setup
----------------
-
-Gulp should be installed before proceeding further (you may need to skip sudo if you are using nvm).
-
-.. code:: sh
-
-    sudo npm i -g gulp-cli
-
-1. Install php and composer in host machine.
-
-.. code:: sh
-
-    apt-get install php7.2
-    curl -s https://getcomposer.org/installer | php
-    sudo mv composer.phar /usr/bin/composer
-
-**NOTE** If you are on macOS, use following command to move the ``composer.phar`` file.
-
-.. code:: sh
-
-    brew install php@7.2
-    curl -s https://getcomposer.org/installer | php
-    sudo mv composer.phar /usr/local/bin/composer
-
-
-then install composer in wordpress container.
-
-.. code:: sh
-
-    make wordpress-shell
-    curl -s https://getcomposer.org/installer | php
-    mv composer.phar /usr/local/bin/composer
-
-
-2. Change the owner of ``wp-content`` directory inside docker container.
-
-.. code:: sh
-
-    chown -R www-data:www-data wp-content
-
-
-3. Install the requirements for ``edly-wp-theme`` and ``edly-wp-plugin`` inside wordpress shell. But before doing that, Change the owner of the directories as shown below.
-
-.. code:: sh
-
-    cd /var/www/html/wp-content/plugins/edly-wp-plugin
-    composer install
-
-    cd /var/www/html/wp-content/themes/st-lutherx
-    composer install
-
-    cd /var/www/html/wp-content/themes/st-normanx
-    composer install
-
-    exit
-
-4. Add ``127.0.0.1 wordpress.edx.devstack.lms`` in host file.
-5. Visit ``wordpress.edx.devstack.lms:8888``. It should prompt the WordPress installation screen.
-6. Fill it in with the following values
-
-.. code:: sh
-
-        Site name: Edly
-        Username: edx
-        Password: edx
-        Email: edx@example.com
-
-7. Click Install and then login with the same credentials.
-8. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
-
-.. code:: sh
-
-    cd ..
-    sudo chmod -R 0777 edly-wp-plugin
-    sudo chmod -R 0777 edly-wp-theme
-    cd devstack
-
-9. Run wordpress provsion.
-
-.. code:: sh
-
-    ./provision-wordpress.sh
-
-**Note** (For Linux): If you face an error related to xml while running the provision, run the following command:
-
-.. code:: sh
-
-        sudo apt-get install php7.2-xml
-
-and then run the provision again.
-
-10. Go to devstack folder and run `make lms-shell` and edit the config file ``../lms.env.json``. Change the below value
-
-.. code:: sh
-
-        "SESSION_COOKIE_DOMAIN": ".edx.devstack.lms"
-
-
-To setup **Wordpress** you need to login with **Super Admin** user and then follow these steps:
-
-#. Add **Site Logo** and **Favicon** from `Appearance > Customize > Site Identity`
-#. Add **footer logo**, **Zendesk widget code**, **short description**, **social media Links**, **Hide Footer Pages** and **Copyright Text** from `Appearance > Customize > Footer`
-#. Go to `Custom Fields > Tools` and import **Advanced Custom Fields** `acf-export-english.json` from https://github.com/edly-io/edly-wp-theme/blob/develop/st-normanx/config-files/acf-export-english.json/
-    | (Note: Use relative `.json` file for relevant theme and language)
-#. Goto `Appearance > Menus` and create these menus with your required Pages and Edly WP Integration options then checked the Display Location as **Primary**, **Footer Menu 1** or **Footer Menu 2** *(Primary menu is mandatory)*
-#. Publish your **Home** page using these steps:
-    - Go to `Pages > Add New page`
-    - Add page title
-    - Select **Elementor Full Width** template from **Template** select field
-    - Publish the page
-    - Now click on **Edit with Elementor** button
-    - In the widget area, click on **directory** icon
-    - Go to **My Templates** tab
-    - Click on **Import Template** icon in upper right corner of the section
-    - Add any new template or use existing ones from https://github.com/edly-io/edly-wp-theme/tree/develop/st-normanx/config-files
-    - Click on **Insert** button for `Home` template that we have just imported
-    - Click **Publish** and **EXIT TO DASHBOARD** from top left side menu icon
-
-    | Now you can repeat above mentioned steps for other pages you want to setup like Courses, Blog, About, Contact, FAQs etc.
-    | *(Note: Home, courses and Blog pages are mandatory)*
-
-#. To set the landing page as **default home page**, perform these following steps:
-    - Go to `Appearance > Customize`
-    - Click on **Homepage settings**
-    - Select **A static page** option
-    - Select **Home** in Homepage dropdown
-    - Select **Blog** in Posts page dropdown
-    - Click publish
-
-    | *(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
-
-Setup WordPress Multisite
--------------------------
-Here is the link to setup WordPress multisite:
-https://edlyio.atlassian.net/wiki/spaces/PI/pages/645136408/WordPress+Setup+Guide#Enable-WordPress-Multisites%3A
-
-Setup WordPress Single Sign On
-------------------------------
-To setup the single sing on(SSO) on WordPress.  Follow the below steps
-
-1. Open WordPress Shell
-
-.. code:: sh
-
-        make wordpress-shell
-
-2. Open `wp-config.php` file
-
-.. code:: sh
-
-        apt update
-
-        apt install nano
-
-        nano wp-config.php
-
-
-3. Past the below code and save file
-
-.. code:: sh
-
-        define( 'EDLY_SSO_CLIENT_ID', 'edly-wordpress-key' );
-
-        define( 'EDLY_SSO_CLIENT_SECRET', 'edly-wordpress-secret' );
-
-        define( 'EDLY_SSO_AUTHORIZE_ENDPOINT', 'http://edx.devstack.lms:18000/oauth2/authorize' );
-
-        define( 'EDLY_SSO_ACCESS_TOKEN_URL', 'http://edx.devstack.lms:18000/oauth2/access_token' );
-
-        define( 'EDLY_SSO_SCOPE', 'openid+profile+email+permissions' );
-
-        define( 'EDLY_SSO_REDIRECT_URL', 'http://wordpress.edx.devstack.lms:8888' );
-
-        define( 'EDLY_SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://localhost:18000/oauth2' );
-
-
-4. Go to `LMS Django Admin` -> `Oauth2` -> `Clients`
-
-- Add new client.
-
-- Select ``discovery_worker`` in Users field
-
-- Add ``edly-wordpress`` in Name field
-
-- Add ``http://wordpress.edx.devstack.lms:8888`` in Url field
-
-- Add ``http://wordpress.edx.devstack.lms:8888`` in Redirect Uri field
-
-- Add ``edly-wordpress-key`` in Client Id field
-
-- Add ``edly-wordpress-secret`` in Client Secret
-
-- Select ``Confidential Web applications`` in Client type field
-
-- Add ``http://wordpress.edx.devstack.lms:8888/logout`` in Logout uri field.
-
-
-5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
-
-
-Setting up edly panel
----------------------
-
-1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the
-edly devstack ironwood branch.
-
-2. Clone edly panel backend locally in a separate folder than edly.
-
-.. code:: sh
-
-    mkdir ~/workspace/edly-panel-backend
-    cd ~/workspace/edly-panel-backend
-
-3. Follow all the steps from https://github.com/edly-io/edly-panel-backend/tree/develop.
-
-4. Follow Step 4 onwards from this link. https://edlyio.atlassian.net/wiki/spaces/PI/pages/297500692/How+to+setup+Edly+Panel
-
-**NOTE** If you have already installed the ``edly-panel-edx-app``, skip step 11.
-
-Enable Marketing URLs
----------------------
-
-1. Go to lms container.
-
-.. code:: sh
-
-    make lms-shell
-    nano ../lms.env.json
-
-and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
-
-2. Add the following URLs in ``edx-platform/lms/envs/devstack_docker.py``
-
-.. code:: python
-
-    MKTG_URLS = {
-        ...
-            "NAV_MENU": "wp-json/edly-wp-routes/nav-menu",
-            "FOOTER": "wp-json/edly-wp-routes/footer",
-            "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
-        }
-
-
-
-Enable Course Creation
-----------------------
-
-Go to ``<devstack-dir>/edx-platform/cms/envs/common.py`` and edit
-the following value in ``FEATURES`` dictionary.
-
-.. code:: python
-
-    # show organizations in studio while creating new course
-    'ORGANIZATIONS_APP': True
-
-Other useful commands
----------------------
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 
 After the services have started, if you need shell access to one of the
 services, run ``make <service>-shell``. For example to access the
@@ -845,6 +318,386 @@ For information on all the available ``make`` commands, you can run:
 .. code:: sh
 
     make help
+
+
+Install edly-panel-edx-app
+--------------------------
+
+Install the edly edx panel app in ``lms-shell`` by following instructions on https://github.com/edly-io/edly-panel-edx-app.
+
+
+Setup Edly Open edX theme
+-------------------------
+
+1. Go to the edly directory.
+2. Clone edly-edx-themes repo in the src directory.
+
+.. code:: sh
+
+    https://github.com/edly-io/edly-edx-themes.git
+
+4. Checkout to develop branch if its not already checked out.
+5. Copy St-lutherx, st-normanx and adroit folders to ``edx/edx-platform/themes`` directory.
+
+
+Set up Edly Open edX theme for LMS
+----------------------------------
+
+1. Go to devstack directory and get into lms container.
+
+.. code:: sh
+
+    cd devstack
+    make lms-shell
+
+2. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
+    ]
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+5. Restart lms container.
+
+.. code:: sh
+
+    make lms-restart
+
+6. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
+
+
+Set up Edly Open edX theme for Studio
+-------------------------------------
+
+1. Go to devstack directory and get into studio container.
+
+.. code:: sh
+
+    cd devstack
+    make studio-shell
+
+2. Edit the ``/edx/app/edxapp/cms.env.json`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
+    ]
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+5. Restart studio container.
+
+.. code:: sh
+
+    make studio-restart
+
+6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
+
+Set up Edly Open edX theme for Ecommerce
+----------------------------------------
+
+1. Go to devstack directory and get into ecommerce container.
+
+.. code:: sh
+
+    cd devstack
+    make ecommerce-shell
+
+2. Edit the ``/edx/etc/ecommerce.yml`` file in the docker container and set the following
+variables to the following values.
+
+.. code:: json
+
+    COMPREHENSIVE_THEME_DIRS:
+    - /edx/src/edly-edx-themes/st-lutherx/ecommerce
+    - /edx/src/edly-edx-themes/st-normanx/ecommerce
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true
+
+3. Update assets in the docker shell from the ``/edx/app/ecommerce/ecommerce`` folder using these commands.
+
+.. code:: sh
+
+    python manage.py update_assets
+    make requirements
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+5. Restart ecommerce container.
+
+.. code:: sh
+
+    docker-compose restart ecommerce
+
+6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx-ecommerce``.
+10. Get into ecommerce container and run the following command.
+
+.. code:: sh
+
+    ./manage.py migrate core
+
+Setup Multisite for Open edX
+----------------------------
+
+Here is the link to setup Open edX multisite:
+https://edlyio.atlassian.net/wiki/spaces/BM/pages/713785351/Edly+Cloud+Client+Setup+Guide+on+Multisite+Instance
+
+WordPress Setup
+---------------
+Gulp should be installed before proceeding further (you may need to skip sudo if you are using nvm).
+
+.. code:: sh
+
+    sudo npm i -g gulp-cli
+
+1. Install php and composer in host machine.
+
+.. code:: sh
+
+    apt-get install php7.4
+    curl -s https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/bin/composer
+
+**NOTE** If you are on macOS, use following command to move the ``composer.phar`` file.
+
+.. code:: sh
+
+    brew install php@7.4
+    curl -s https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
+
+then install composer in wordpress container.
+
+.. code:: sh
+
+    make wordpress-shell
+    curl -s https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+
+2. Change the owner of ``wp-content`` directory inside docker container.
+
+.. code:: sh
+
+    chown -R www-data:www-data wp-content
+
+3. Install the requirements for ``edly-wp-theme`` and ``edly-wp-plugin`` inside wordpress shell. But before doing that, Change the owner of the directories as shown below.
+
+.. code:: sh
+
+    cd /var/www/html/wp-content/plugins/edly-wp-plugin
+    composer install
+    cd /var/www/html/wp-content/themes/st-lutherx
+    composer install
+    cd /var/www/html/wp-content/themes/st-normanx
+    composer install
+    cd /var/www/html/wp-content/themes/adroit
+    composer install
+    exit
+
+4. Add ``127.0.0.1 wordpress.edx.devstack.lms`` in host file.
+5. Visit ``wordpress.edx.devstack.lms:8888``. It should prompt the WordPress installation screen.
+6. Fill it in with the following values
+
+.. code:: sh
+
+    Site name: Edly
+    Username: edx
+    Password: edx
+    Email: edx@example.com
+
+7. Click Install and then login with the same credentials.
+8. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
+
+.. code:: sh
+
+    cd ..
+    sudo chmod -R 0777 edly-wp-plugin
+    sudo chmod -R 0777 edly-wp-theme
+    cd devstack
+
+9. Run wordpress provsion.
+
+.. code:: sh
+
+    ./provision-wordpress.sh
+
+**Note** (For Linux): If you face an error related to xml while running the provision, run the following command:
+
+.. code:: sh
+
+        sudo apt-get install php7.4-xml
+
+and then run the provision again.
+10. Go to devstack folder and run `make lms-shell` and edit the config file ``../lms.env.json``. Change the below value:
+
+.. code:: sh
+        "SESSION_COOKIE_DOMAIN": ".edx.devstack.lms"
+
+To setup **Wordpress** you need to login with **Super Admin** user and then follow these steps:
+#. Add **Site Logo** and **Favicon** from `Appearance > Customize > Site Identity`
+#. Add **footer logo**, **Zendesk widget code**, **short description**, **social media Links**, **Hide Footer Pages** and **Copyright Text** from `Appearance > Customize > Footer`
+#. Go to `Custom Fields > Tools` and import **Advanced Custom Fields** `acf-export-english.json` from https://github.com/edly-io/edly-wp-theme/blob/develop/st-normanx/config-files/acf-export-english.json/
+    | (Note: Use relative `.json` file for relevant theme and language)
+#. Goto `Appearance > Menus` and create these menus with your required Pages and Edly WP Integration options then checked the Display Location as **Primary**, **Footer Menu 1** or **Footer Menu 2** *(Primary menu is mandatory)*
+#. Publish your **Home** page using these steps:
+    - Go to `Pages > Add New page`
+    - Add page title
+    - Select **Elementor Full Width** template from **Template** select field
+    - Publish the page
+    - Now click on **Edit with Elementor** button
+    - In the widget area, click on **directory** icon
+    - Go to **My Templates** tab
+    - Click on **Import Template** icon in upper right corner of the section
+    - Add any new template or use existing ones from https://github.com/edly-io/edly-wp-theme/tree/develop/st-normanx/config-files
+    - Click on **Insert** button for `Home` template that we have just imported
+    - Click **Publish** and **EXIT TO DASHBOARD** from top left side menu icon
+    | Now you can repeat above mentioned steps for other pages you want to setup like Courses, Blog, About, Contact, FAQs etc.
+    | *(Note: Home, courses and Blog pages are mandatory)*
+#. To set the landing page as **default home page**, perform these following steps:
+    - Go to `Appearance > Customize`
+    - Click on **Homepage settings**
+    - Select **A static page** option
+    - Select **Home** in Homepage dropdown
+    - Select **Blog** in Posts page dropdown
+    - Click publish
+    | *(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
+
+Setup WordPress Multisite
+-------------------------
+
+Here is the link to setup WordPress multisite:
+https://edlyio.atlassian.net/wiki/spaces/PI/pages/645136408/WordPress+Setup+Guide#Enable-WordPress-Multisites%3A
+
+Setup WordPress Single Sign On
+------------------------------
+
+To setup the single sing on(SSO) on WordPress.  Follow the below steps
+1. Open WordPress Shell
+
+.. code:: sh
+
+        make wordpress-shell
+
+2. Open `wp-config.php` file
+
+.. code:: sh
+
+        apt update
+        apt install nano
+        nano wp-config.php
+
+3. Past the below code and save file
+
+.. code:: sh
+
+        define( 'EDLY_USER_INFO_COOKIE_NAME', 'edly-user-info' );
+        define( 'EDLY_COOKIE_SECRET_KEY', 'EDLY-COOKIE-SECRET-KEY' );
+        define( 'EDLY_JWT_ALGORITHM', 'HS256' );
+        define( 'EDX_API_KEY', 'PUT_YOUR_API_KEY_HERE' );
+        define( 'DISCOVERY_CLIENT_ID', 'discovery-key' );
+        define( 'DISCOVERY_CLIENT_SECRET', 'discovery-secret' );
+        define( 'IS_LOGGED_IN_COOKIE', 'edxloggedin' );
+        define('MULTISITE', true);
+        define('SUBDOMAIN_INSTALL', true);
+        define('DOMAIN_CURRENT_SITE', 'wordpress.edx.devstack.lms');
+        define('PATH_CURRENT_SITE', '/');
+        define('SITE_ID_CURRENT_SITE', 1);
+        define('BLOG_ID_CURRENT_SITE', 1);
+
+
+
+4. Go to `LMS Django Admin` -> `Oauth2` -> `Clients`
+- Add new client.
+- Select ``discovery_worker`` in Users field
+- Add ``edly-wordpress`` in Name field
+- Add ``http://wordpress.edx.devstack.lms:8888`` in Url field
+- Add ``http://wordpress.edx.devstack.lms:8888`` in Redirect Uri field
+- Add ``edly-wordpress-key`` in Client Id field
+- Add ``edly-wordpress-secret`` in Client Secret
+- Select ``Confidential Web applications`` in Client type field
+- Add ``http://wordpress.edx.devstack.lms:8888/logout`` in Logout uri field.
+5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
+
+Setting up edly panel
+---------------------
+
+1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the
+edly devstack ironwood branch.
+2. Clone edly panel backend locally in a separate folder than edly.
+
+.. code:: sh
+
+    mkdir ~/workspace/edly-panel-backend
+    cd ~/workspace/edly-panel-backend
+
+3. Follow all the steps from https://github.com/edly-io/edly-panel-backend/tree/develop.
+4. Follow Step 4 onwards from this link. https://edlyio.atlassian.net/wiki/spaces/PI/pages/297500692/How+to+setup+Edly+Panel
+**NOTE** If you have already installed the ``edly-panel-edx-app``, skip step 11.
+
+Enable Marketing URLs
+---------------------
+
+1. Go to lms container.
+
+.. code:: sh
+
+    make lms-shell
+    nano ../lms.env.json
+
+and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
+2. Add the following URLs in ``edx-platform/lms/envs/devstack_docker.py``
+
+.. code:: python
+
+    MKTG_URLS = {
+        ...
+            "NAV_MENU": "wp-json/edly-wp-routes/nav-menu",
+            "FOOTER": "wp-json/edly-wp-routes/footer",
+            "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
+        }
+
+Enable Course Creation
+----------------------
+Go to ``<devstack-dir>/edx-platform/cms/envs/common.py`` and edit
+the following value in ``FEATURES`` dictionary.
+
+.. code:: python
+
+    # show organizations in studio while creating new course
+    'ORGANIZATIONS_APP': True
 
 Usernames and Passwords
 -----------------------
@@ -1022,34 +875,6 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
 7. For troubleshooting docker analyticstack, follow the instructions in the
    `Troubleshooting docker analyticstack`_ guide.
 
-<<<<<<< HEAD
-=======
-Service URLs
-------------
-
-Each service is accessible at ``localhost`` on a specific port. The table below
-provides links to the homepage of each service. Since some services are not
-meant to be user-facing, the "homepage" may be the API root.
-
-+---------------------+-------------------------------------+
-| Service             | URL                                 |
-+=====================+=====================================+
-| Panel Frontend      | http://localhost:3030/              |
-+---------------------+-------------------------------------+
-| Credentials         | http://localhost:18150/api/v2/      |
-+---------------------+-------------------------------------+
-| Catalog/Discovery   | http://localhost:18381/api-docs/    |
-+---------------------+-------------------------------------+
-| E-Commerce/Otto     | http://localhost:18130/dashboard/   |
-+---------------------+-------------------------------------+
-| LMS                 | http://localhost:18000/             |
-+---------------------+-------------------------------------+
-| Notes/edx-notes-api | http://localhost:18120/api/v1/      |
-+---------------------+-------------------------------------+
-| Studio/CMS          | http://localhost:18010/             |
-+---------------------+-------------------------------------+
-
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
 Useful Commands
 ---------------
 
@@ -1197,7 +1022,7 @@ How do I run multiple named Open edX releases on same machine?
 --------------------------------------------------------------
 You can have multiple isolated Devstacks provisioned on a single computer now. Follow these directions to switch between the named releases.
 
-#. Bring down any running containers by issuing a `make stop.all`. 
+#. Bring down any running containers by issuing a `make stop.all`.
 #. The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes and network based on this value, so changing it will give you a separate set of databases. This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk`` (e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
    ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
 #. Perform steps in `How do I run the images for a named Open edX release?`_ for specific release.
@@ -1212,15 +1037,15 @@ Switch between your Devstack releases by doing the following:
 
 #. Bring down the containers by issuing a ``make stop.all`` for the running release.
 #. Follow the instructions from the `How do I run multiple named Open edX releases on same machine?`_ section.
-#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically. 
+#. Edit the project name in ``options.local.mk`` or set the ``OPENEDX_RELEASE`` environment variable and let the ``COMPOSE_PROJECT_NAME`` be assigned automatically.
 #. Bring up the containers with ``make dev.up``.
 
 **NOTE:** Additional instructions on switching releases using `direnv` can be found in `How do I switch releases using 'direnv'?`_ section.
 
 Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
-         
--  edx.devstack-juniper.master.lms          
--  edx.devstack-juniper.master.mysql  
+
+-  edx.devstack-juniper.master.lms
+-  edx.devstack-juniper.master.mysql
 
 Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
 
@@ -1232,11 +1057,11 @@ Questions & Troubleshooting – Multiple Named Open edX Releases on Same Machine
 This broke my existing Devstack!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  See if the troubleshooting of this readme can help resolve your broken devstack first, then try posting on the `Open edX forums <https://discuss.openedx.org>`__ to see if you have the same issue as any others. If you think you have found a bug, file a CR ticket.
-        
+
 I’m getting errors related to ports already being used.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Make sure you bring down your devstack before changing the value of COMPOSE_PROJECT_NAME. If you forgot to, change the COMPOSE_PROJECT_NAME back to its original value, run ``make dev.down``, and then try again.
-        
+
 I have custom scripts/compose files that integrate with or extend Devstack. Will those still work?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 With the default value of COMPOSE_PROJECT_NAME = devstack, they should still work. If you choose a different COMPOSE_PROJECT_NAME, your extensions will likely break, because the names of containers change along with the project name.
@@ -1252,7 +1077,7 @@ Make sure that you have setup each Open edX release in separate directories usin
 
         # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
 
-        direnv: loading ~/open-edx/devstack.juniper/.envrc   
+        direnv: loading ~/open-edx/devstack.juniper/.envrc
         direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
         (venv)username@computer-name devstack.juniper %
 
@@ -1296,7 +1121,7 @@ We recommend separating the named releases into different directories, for clari
         ## ~/.zshrc for ZSH shell for Mac OS X.
 
         ## Hook in `direnv` for local directory environment setup.
-        ## https://direnv.net/docs/hook.html 
+        ## https://direnv.net/docs/hook.html
         eval "$(direnv hook zsh)"
 
         # https://github.com/direnv/direnv/wiki/Python#zsh
@@ -1345,7 +1170,7 @@ We recommend separating the named releases into different directories, for clari
             export PATH
         }
 
-#. Example `.envrc` file used in project directory. Need to make sure that each release root has this unique file. 
+#. Example `.envrc` file used in project directory. Need to make sure that each release root has this unique file.
 
     .. code:: sh
 
@@ -1665,7 +1490,7 @@ so that you maintain your command history:
     ./in lms pytest openedx/core/djangoapps/user_api
 
 Connecting to Browser
-**********************
+~~~~~~~~~~~~~~~~~~~~~
 
 If you want to see the browser being automated for JavaScript or bok-choy tests,
 you can connect to the container running it via VNC.
@@ -1714,14 +1539,14 @@ Troubleshooting: General Tips
 If you are having trouble with your containers, this sections contains some troubleshooting tips.
 
 Check the logs
-**************
+~~~~~~~~~~~~~~
 
 If a container stops unexpectedly, you can look at its logs for clues::
 
     docker-compose logs lms
 
 Update the code and images
-***************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Make sure you have the latest code and Docker images.
 
@@ -1744,14 +1569,14 @@ repositories (e.g. edx-platform, ecommerce, etc.). Make sure you are using the
 latest code from the master branches, or have rebased your branches on master.
 
 Clean the containers
-********************
+~~~~~~~~~~~~~~~~~~~~
 
 Sometimes containers end up in strange states and need to be rebuilt. Run
 ``make down`` to remove all containers and networks. This will **NOT** remove your
 data volumes.
 
 Reset
-*****
+~~~~~
 
 Sometimes you just aren't sure what's wrong, if you would like to hit the reset button
 run ``make dev.reset``.
@@ -1767,13 +1592,13 @@ Running this command will perform the following steps:
 It's good to run this before asking for help.
 
 Start over
-**********
+~~~~~~~~~~
 
 If you want to completely start over, run ``make destroy``. This will remove
 all containers, networks, AND data volumes.
 
 Resetting a database
-********************
+~~~~~~~~~~~~~~~~~~~~
 
 In case you botched a migration or just want to start with a clean database.
 
@@ -1794,7 +1619,7 @@ Troubleshooting: Common issues
 ------------------------------
 
 File ownership change
-**********************
+~~~~~~~~~~~~~~~~~~~~~
 
 If you notice that the ownership of some (maybe all) files have changed and you
 need to enter your root password when editing a file, you might
@@ -1810,7 +1635,7 @@ To fix this situation, change the owner back to yourself outside of the containe
   $ sudo chown <user>:<group> -R .
 
 Running LMS commands within a container
-****************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the ``paver`` commands require a settings flag. If omitted, the flag defaults to
 ``devstack``. If you run into issues running ``paver`` commands in a docker container, you should append
@@ -1821,7 +1646,7 @@ the ``devstack_docker`` flag. For example:
   $ paver update_assets --settings=devstack_docker
 
 Resource busy or locked
-************************
+~~~~~~~~~~~~~~~~~~~~~~~
 
 While running ``make static`` within the ecommerce container you could get an error
 saying:
@@ -1833,7 +1658,7 @@ saying:
 To fix this, remove the directory manually outside of the container and run the command again.
 
 No space left on device
-************************
+~~~~~~~~~~~~~~~~~~~~~~~
 
 If you see the error ``no space left on device`` on a Mac, Docker has run
 out of space in its Docker.qcow2 file.
@@ -1864,7 +1689,7 @@ this is not a guarantee.
 
 
 No such file or directory
-**************************
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 While provisioning, some have seen the following error:
 
@@ -1890,7 +1715,7 @@ Once you get past the issue, you should be able to continue to use sync versions
 of the make targets.
 
 Memory Limit
-************
+~~~~~~~~~~~~
 
 While provisioning, some have seen the following error:
 
@@ -1904,7 +1729,7 @@ this error is due to running out of memory.  Try increasing the memory
 allocated to Docker.
 
 Docker is using lots of CPU time when it should be idle
-*********************************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On the Mac, this often manifests as the ``hyperkit`` process using a high
 percentage of available CPU resources.  To identify the container(s)
@@ -1934,7 +1759,7 @@ Performance
 -----------
 
 Improve Mac OSX Performance with docker-sync
-**********************************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Docker for Mac has known filesystem issues that significantly decrease
 performance for certain use cases, for example running tests in edx-platform. To
@@ -1953,7 +1778,7 @@ If you are using macOS, please follow the `Docker Sync installation
 instructions`_ before provisioning.
 
 Docker Sync Troubleshooting tips
-*********************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Check your version and make sure you are running 0.4.6 or above:
 
 .. code:: sh
@@ -1975,7 +1800,7 @@ If you are having issues with docker sync, try the following:
     docker-sync clean
 
 Cached Consistency Mode
-************************
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The performance improvements provided by `cached consistency mode for volume
 mounts`_ introduced in Docker CE Edge 17.04 are still not good enough. It's
@@ -2000,7 +1825,6 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
-.. _docker-ce: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
@@ -2011,8 +1835,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
-<<<<<<< HEAD
 .. _Community: https://open.edx.org/community/connect/
-=======
-.. _Site configurations: https://edlyio.atlassian.net/wiki/spaces/PI/pages/478707717/How+to+update+client+branding+using+admin+site+configurations
->>>>>>> 183ff2245a92316d79adafc9d5a9ac2193bddb67
