@@ -494,17 +494,17 @@ services:
       - NODE_ENV=development
 
   wordpress:
-    container_name: edx.devstack.wordpress
+    container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress
     image: wordpress
     environment:
-          WORDPRESS_DB_HOST: edx.devstack.mysql
+          WORDPRESS_DB_HOST: edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql
           WORDPRESS_DB_NAME: 'wordpress'
           WORDPRESS_DB_USER: 'wordpress001'
           WORDPRESS_DB_PASSWORD: 'password'
     depends_on:
       - mysql
     ports:
-      - "8888:80"
+      - "80:80"
     volumes:
        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
