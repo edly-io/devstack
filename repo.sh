@@ -61,12 +61,12 @@ non_release_ssh_repos=(
 )
 
 edly_repos=(
-    "git@github.com:edly-io/edly-wp-plugin.git",
-    "git@github.com:edly-io/edly-wp-theme.git",
-    "git@github.com:edly-io/edly-edx-themes.git",
-    "git@github.com:edly-io/edly-panel-frontend.git",
-    "git@github.com:edly-io/edly-panel-edx-app.git",
-    "git@github.com:edly-io/figures.git",
+    "git@github.com:edly-io/edly-wp-plugin.git"
+    "git@github.com:edly-io/edly-wp-theme.git"
+    "git@github.com:edly-io/edly-edx-themes.git"
+    "git@github.com:edly-io/edly-panel-frontend.git"
+    "git@github.com:edly-io/edly-panel-edx-app.git"
+    "git@github.com:edly-io/figures.git"
 )
 
 
