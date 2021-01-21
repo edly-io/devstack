@@ -21,13 +21,13 @@ fi
 # (or non_release_repos and non_release_ssh_repos if they are not part
 # of Open edX releases).
 repos=(
-    "https://github.com/edx/course-discovery.git"
-    "https://github.com/edx/credentials.git"
+    "git@github.com:edly-io/course-discovery.git"
+    "git@github.com:edly-io/credentials.git"
     "https://github.com/edx/cs_comments_service.git"
-    "https://github.com/edx/ecommerce.git"
+    "git@github.com:edly-io/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "https://github.com/edx/edx-platform.git"
+    "git@github.com:edly-io/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
     "https://github.com/edx/frontend-app-gradebook.git"
@@ -61,10 +61,12 @@ non_release_ssh_repos=(
 )
 
 edly_repos=(
-    "https://github.com/edly-io/edly-wp-plugin.git"
-    "https://github.com/edly-io/edly-wp-theme.git"
-    "https://github.com/edly-io/edly-edx-themes.git"
-    "https://github.com/edly-io/edly-panel-frontend.git"
+    "git@github.com:edly-io/edly-wp-plugin.git",
+    "git@github.com:edly-io/edly-wp-theme.git",
+    "git@github.com:edly-io/edly-edx-themes.git",
+    "git@github.com:edly-io/edly-panel-frontend.git",
+    "git@github.com:edly-io/edly-panel-edx-app.git",
+    "git@github.com:edly-io/figures.git",
 )
 
 
