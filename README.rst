@@ -142,9 +142,9 @@ Also, turn off git permission tracking globally.
 
 .. code:: sh
 
-    git clone https://github.com/edly-io/devstack.git
+    git clone git@github.com:edly-io/devstack.git
     cd devstack
-    git checkout edly/i
+    git checkout edly/j
     export OPENEDX_RELEASE=juniper.master
     git config --global core.fileMode false
 
