@@ -497,7 +497,7 @@ services:
     container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress
     image: wordpress
     environment:
-          WORDPRESS_DB_HOST: edx.${COMPOSE_PROJECT_NAME:-devstack}.mysql
+          WORDPRESS_DB_HOST: mysql.devstack.edx
           WORDPRESS_DB_NAME: 'wordpress'
           WORDPRESS_DB_USER: 'wordpress001'
           WORDPRESS_DB_PASSWORD: 'password'
