@@ -190,7 +190,7 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../edx-platform
-    git checkout develop-multisite
+    git checkout develop-juniper
     git pull origin develop-juniper
     
 9. Go into `ecommerce` directory and check if edly-io remote is added.
@@ -198,7 +198,7 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../ecommerce
-    git checkout develop-multisite
+    git checkout develop-juniper
     git pull origin develop-juniper
 
 10. Go into `course-discovery` directory and check if edly-io remote is added.
@@ -206,7 +206,7 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../course-discovery
-    git checkout develop-multisite
+    git checkout develop-juniper
     git pull origin develop-juniper
 
 11. Go into `credentials` directory and check if edly-io remote is added.
@@ -214,7 +214,7 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../credentials
-    git checkout develop-multisite
+    git checkout develop-juniper
     git pull origin develop-juniper
     cd ../devstack
 
