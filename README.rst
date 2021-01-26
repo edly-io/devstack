@@ -185,7 +185,7 @@ Also, turn off git permission tracking globally.
 
         make dev.nfs.setup
 
-8. Go into `edx-platform` directory and check if edly-io remote is added.
+8. Go into `edx-platform` directory and checkout to edly branch.
 
 .. code:: sh
 
@@ -193,7 +193,7 @@ Also, turn off git permission tracking globally.
     git checkout develop-juniper
     git pull origin develop-juniper
     
-9. Go into `ecommerce` directory and check if edly-io remote is added.
+9. Go into `ecommerce` directory and checkout to edly branch.
 
 .. code:: sh
 
@@ -201,7 +201,7 @@ Also, turn off git permission tracking globally.
     git checkout develop-juniper
     git pull origin develop-juniper
 
-10. Go into `course-discovery` directory and check if edly-io remote is added.
+10. Go into `course-discovery` directory and checkout to edly branch.
 
 .. code:: sh
 
@@ -209,7 +209,7 @@ Also, turn off git permission tracking globally.
     git checkout develop-juniper
     git pull origin develop-juniper
 
-11. Go into `credentials` directory and check if edly-io remote is added.
+11. Go into `credentials` directory and checkout to edly branch.
 
 .. code:: sh
 
