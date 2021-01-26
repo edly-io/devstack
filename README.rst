@@ -179,13 +179,46 @@ Also, turn off git permission tracking globally.
 
        make dev.pull
 
+
 7. (Optional) You have an option to use nfs on MacOS which will improve the performance significantly, to set it up ONLY ON MAC, do
     .. code:: sh
 
         make dev.nfs.setup
 
+8. Go into `edx-platform` directory and check if edly-io remote is added.
 
-8. Run the provision command, if you haven't already, to configure the various
+.. code:: sh
+
+    cd ../edx-platform
+    git checkout develop-multisite
+    git pull origin develop-juniper
+    
+9. Go into `ecommerce` directory and check if edly-io remote is added.
+
+.. code:: sh
+
+    cd ../ecommerce
+    git checkout develop-multisite
+    git pull origin develop-juniper
+
+10. Go into `course-discovery` directory and check if edly-io remote is added.
+
+.. code:: sh
+
+    cd ../course-discovery
+    git checkout develop-multisite
+    git pull origin develop-juniper
+
+11. Go into `credentials` directory and check if edly-io remote is added.
+
+.. code:: sh
+
+    cd ../credentials
+    git checkout develop-multisite
+    git pull origin develop-juniper
+    cd ../devstack
+
+12. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -216,51 +249,7 @@ Also, turn off git permission tracking globally.
 
    This is expected to take a while, produce a lot of output from a bunch of steps, and finally end with ``Provisioning complete!``
 
-
-9. Go into `edx-platform` directory and check if edly-io remote is added.
-
-.. code:: sh
-
-    cd ../edx-platform
-    git remote -v
-
-10. If remote is not added, add it.
-
-.. code:: sh
-
-    git remote add edly git@github.com:edly-io/edx-platform.git
-    git remote -v
-
-11. Now that edx-platform edly remote has been added, checkout into develop-juniper branch and make a pull.
-
-.. code:: sh
-
-    git checkout develop-juniper
-    git pull edly develop-juniper
-
-12. Go into `ecommerce` directory and check if edly-io remote is added.
-
-.. code:: sh
-
-    cd ../ecommerce
-    git remote -v
-
-13. If remote is not added, add it.
-
-.. code:: sh
-
-    git remote add edly git@github.com:edly-io/ecommerce.git
-    git remote -v
-
-14. Now that ecommerce edly remote has been added, checkout into develop-juniper branch and make a pull.
-
-.. code:: sh
-
-    git checkout develop-juniper
-    git pull edly develop-juniper
-    cd ../devstack
-
-15. Start the services. This command will mount the repositories under the
+13. Start the services. This command will mount the repositories under the
     DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
