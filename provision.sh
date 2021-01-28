@@ -50,6 +50,7 @@ registrar \
 analyticspipeline \
 marketing \
 xqueue \
+wordpress \
  "
 
 # What should we provision?
