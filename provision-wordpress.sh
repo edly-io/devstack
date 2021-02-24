@@ -55,3 +55,5 @@ echo -e "${GREEN} Requirements ...${NC}"
 cd .. && cd edly-wp-plugin && make test-requirements && cd ../devstack
 cd .. && cd edly-wp-theme/st-lutherx && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
 cd .. && cd edly-wp-theme/st-normanx && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
+cd .. && cd edly-wp-theme/adroit && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
+cd .. && cd edly-wp-theme/gestalt && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
