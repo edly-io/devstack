@@ -1751,3 +1751,53 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
 .. _Community: https://open.edx.org/community/connect/
+
+Notes
+-----------
+When running provisions using  ``make dev.provision``  some issues might occur. These notes will help resolve some common issues.
+
+1. Make sure  ``edly-panel-edx-app``  and  ``edly-edx-themes``  are placed in  ``src``  directory.
+
+2. If facing git access issue for repositories  ``figures`` and  ``edly-panel-edx-app``  :
+
+  Go to  ``edx-platform``  remove  ``figures``  and  ``edly-panel-edx-app``  temporarily from  ``development.txt`` 
+  Go to  ``lms-shell``  and install  ``edly-panel-edx-app`` 
+
+.. code:: sh
+
+  make lms-shell
+  pip install -e /edx/src/edly-panel-edx-app/
+
+
+  Go to  ``studio-shell``  and install  ``edly-panel-edx-app`` 
+
+.. code:: sh
+
+  make studio-shell 
+  pip install -e /edx/src/edly-panel-edx-app/
+
+  After running provisions revert changes in ``development.txt``
+
+3. If facing error  ``No module named 'provider'`` , follow these steps:
+
+  * Remove dependency  ``edx-django-oauth2-provider==1.3.5``  from  ``requirements/edx/base.txt``  and  ``requirements/edx/testing.txt`` .
+  * Go to  ``lms/envs/common.py``  in  ``edx-platform``  and remove following apps in  ``INSTALLED_APPS`` 
+
+.. code:: sh
+
+  'provider',
+  'provider.oauth2' 
+
+4. Copy all themes folders (St-lutherx, St-normanx, Adroit) into  ``edx/edx-platform/themes``  directory and then run  ``npm install``  in  ``lms-shell`` .
+
+5. Run Ecommerce migrations first
+
+.. code:: sh
+
+   make ecommerce-shell
+   ./manage.py migrate core
+   exit
+
+6. If wordpress container is not up, then run ``make stop`` , check if  ``develop-juniper``  branch is selected and latest changes are pulled for  ``edly-wp-theme``  and  ``edly-wp-plugin``  and then run ``make dev.up``.
+
+7. If facing  ``401: Access Denied``  when logging into panel, make sure from LMS Django admin that user group  ``Edly Panel Users``  group is added for user.
