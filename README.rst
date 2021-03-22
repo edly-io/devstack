@@ -146,6 +146,7 @@ Also, turn off git permission tracking globally.
     cd devstack
     git checkout edly/j
     export OPENEDX_RELEASE=juniper.master
+    export COMPOSE_PROJECT_NAME=devstack-juniper.master
     git config --global core.fileMode false
 
 4. Install the requirements inside of a `Python virtualenv`_.
@@ -192,7 +193,7 @@ Also, turn off git permission tracking globally.
     cd ../edx-platform
     git checkout develop-juniper
     git pull origin develop-juniper
-    
+
 9. Go into `ecommerce` directory and checkout to edly branch.
 
 .. code:: sh
@@ -498,18 +499,14 @@ then install composer in wordpress container.
     exit
 
 4. Add ``127.0.0.1 wordpress.edx.devstack.lms`` in host file.
-5. Visit ``wordpress.edx.devstack.lms/``. It should prompt the WordPress installation screen.
-6. Fill it in with the following values
+5. Visit ``wordpress.edx.devstack.lms/wp-admin`` and login with the following values
 
 .. code:: sh
 
-    Site name: Edly
     Username: admin
     Password: admin
-    Email: edx@example.com
 
-7. Click Install and then login with the same credentials.
-8. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
+6. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
 
 .. code:: sh
 
@@ -1758,10 +1755,18 @@ When running provisions using  ``make dev.provision``  some issues might occur. 
 
 1. Make sure  ``edly-panel-edx-app``  and  ``edly-edx-themes``  are placed in  ``src``  directory.
 
-2. If facing git access issue for repositories  ``figures`` and  ``edly-panel-edx-app``  :
+2. If there is compatible version for setuptools_scm, Please follow the following steps:
 
-  Go to  ``edx-platform``  remove  ``figures``  and  ``edly-panel-edx-app``  temporarily from  ``development.txt`` 
-  Go to  ``lms-shell``  and install  ``edly-panel-edx-app`` 
+.. code:: sh
+    make lms-shell
+
+    pip install setuptools_scm==v5.0.2
+
+
+3. If facing git access issue for repositories  ``figures`` and  ``edly-panel-edx-app``  :
+
+  Go to  ``edx-platform``  remove  ``figures``  and  ``edly-panel-edx-app``  temporarily from  ``development.txt``
+  Go to  ``lms-shell``  and install  ``edly-panel-edx-app``
 
 .. code:: sh
 
@@ -1769,28 +1774,28 @@ When running provisions using  ``make dev.provision``  some issues might occur. 
   pip install -e /edx/src/edly-panel-edx-app/
 
 
-  Go to  ``studio-shell``  and install  ``edly-panel-edx-app`` 
+  Go to  ``studio-shell``  and install  ``edly-panel-edx-app``
 
 .. code:: sh
 
-  make studio-shell 
+  make studio-shell
   pip install -e /edx/src/edly-panel-edx-app/
 
   After running provisions revert changes in ``development.txt``
 
-3. If facing error  ``No module named 'provider'`` , follow these steps:
+4. If facing error  ``No module named 'provider'`` , follow these steps:
 
   * Remove dependency  ``edx-django-oauth2-provider==1.3.5``  from  ``requirements/edx/base.txt``  and  ``requirements/edx/testing.txt`` .
-  * Go to  ``lms/envs/common.py``  in  ``edx-platform``  and remove following apps in  ``INSTALLED_APPS`` 
+  * Go to  ``lms/envs/common.py``  in  ``edx-platform``  and remove following apps in  ``INSTALLED_APPS``
 
 .. code:: sh
 
   'provider',
-  'provider.oauth2' 
+  'provider.oauth2'
 
-4. Copy all themes folders (St-lutherx, St-normanx, Adroit) into  ``edx/edx-platform/themes``  directory and then run  ``npm install``  in  ``lms-shell`` .
+5. Copy all themes folders (St-lutherx, St-normanx, Adroit) into  ``edx/edx-platform/themes``  directory and then run  ``npm install``  in  ``lms-shell`` .
 
-5. Run Ecommerce migrations first
+6. Run Ecommerce migrations first
 
 .. code:: sh
 
@@ -1798,6 +1803,6 @@ When running provisions using  ``make dev.provision``  some issues might occur. 
    ./manage.py migrate core
    exit
 
-6. If wordpress container is not up, then run ``make stop`` , check if  ``develop-juniper``  branch is selected and latest changes are pulled for  ``edly-wp-theme``  and  ``edly-wp-plugin``  and then run ``make dev.up``.
+7. If wordpress container is not up, then run ``make stop`` , check if  ``develop-juniper``  branch is selected and latest changes are pulled for  ``edly-wp-theme``  and  ``edly-wp-plugin``  and then run ``make dev.up``.
 
-7. If facing  ``401: Access Denied``  when logging into panel, make sure from LMS Django admin that user group  ``Edly Panel Users``  group is added for user.
+8. If facing  ``401: Access Denied``  when logging into panel, make sure from LMS Django admin that user group  ``Edly Panel Users``  group is added for user.
