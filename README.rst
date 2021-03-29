@@ -327,7 +327,7 @@ Setup Edly Open edX theme
     git clone git@github.com:edly-io/edly-edx-themes.git
 
 4. Checkout to develop-juniper branch if its not already checked out.
-5. Copy St-lutherx, st-normanx and adroit folders to ``edx/edx-platform/themes`` directory.
+5. Copy St-lutherx, st-normanx, adroit and gestalt folders to ``edx/edx-platform/themes`` directory.
 
 
 Set up Edly Open edX theme for LMS
@@ -420,6 +420,8 @@ variables to the following values.
     COMPREHENSIVE_THEME_DIRS:
     - /edx/src/edly-edx-themes/st-lutherx/ecommerce
     - /edx/src/edly-edx-themes/st-normanx/ecommerce
+    - /edx/src/edly-edx-themes/adroit/ecommerce
+    - /edx/src/edly-edx-themes/gestalt/ecommerce
 
 .. code:: json
 
@@ -495,6 +497,8 @@ then install composer in wordpress container.
     cd /var/www/html/wp-content/themes/st-normanx
     composer install
     cd /var/www/html/wp-content/themes/adroit
+    composer install
+    cd /var/www/html/wp-content/themes/gestalt
     composer install
     exit
 
@@ -1793,7 +1797,7 @@ When running provisions using  ``make dev.provision``  some issues might occur. 
   'provider',
   'provider.oauth2'
 
-5. Copy all themes folders (St-lutherx, St-normanx, Adroit) into  ``edx/edx-platform/themes``  directory and then run  ``npm install``  in  ``lms-shell`` .
+5. Copy all themes folders (St-lutherx, St-normanx, Adroit, Gestalt) into  ``edx/edx-platform/themes``  directory and then run  ``npm install``  in  ``lms-shell`` .
 
 6. Run Ecommerce migrations first
 
