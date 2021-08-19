@@ -50,6 +50,18 @@ php wp-cli.phar config set 'EDX_API_KEY' 'PUT_YOUR_API_KEY_HERE' --allow-root &&
 rm -rf wp-cli.phar
 "
 
+echo -e "${GREEN} Instaling X-Debug 3...${NC}"
+docker exec -t edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress  bash -c "
+pecl install xdebug &&
+docker-php-ext-enable xdebug &&
+echo '
+[xdebug]
+xdebug.mode=debug
+xdebug.start_with_request=yes
+xdebug.client_host=host.docker.internal
+xdebug.client_port=9004' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+"
+
 echo -e "${GREEN} Requirements ...${NC}"
 cd .. && cd edly-wp-plugin && make test-requirements && cd ../devstack
 cd .. && cd edly-wp-theme/st-lutherx && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack

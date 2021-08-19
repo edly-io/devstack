@@ -560,6 +560,30 @@ To setup **Wordpress** you need to login with **Super Admin** user and then foll
     - Click publish
     | *(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
 
+To setup **xDebug** for wordpress in VS Code
+#. Create a config file named **launch.json** under **.vscode** directory
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Listen for XDebug",
+                "type": "php",
+                "request": "launch",
+                "port": 9004,
+                "pathMappings": {
+                    "/var/www/html/wp-content/plugins/edly-wp-plugin/": "${workspaceRoot}"
+                },
+                "ignore": ["**/vendor/**/*.php"],
+                "xdebugSettings": {
+                    "max_data": 65535,
+                    "show_hidden": 1,
+                    "max_children": 100,
+                    "max_depth": 5
+                }
+            }
+        ]
+    }
+
 
 Setup Multisite for Open edX & Wordpress
 ----------------------------------------
