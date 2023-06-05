@@ -1,5 +1,5 @@
 # Script to run commands for setup edly devstack locally
-docker-compose $DOCKER_COMPOSE_FILES exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform &&  ./manage.py lms setup_edly_multisite_devstack_Juniper_locally'
+docker-compose $DOCKER_COMPOSE_FILES exec -T lms bash -c 'source /edx/app/edxapp/edxapp_env && cd /edx/app/edxapp/edx-platform &&  ./manage.py lms setup_studio_lms_service'
 
 docker-compose $DOCKER_COMPOSE_FILES exec credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && ./manage.py setup_credentials_service'
 
