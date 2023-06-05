@@ -447,3 +447,7 @@ stop-extra:
 	docker stop edx.devstack.chrome
 	docker stop edx.devstack.forum
 	docker stop edx.devstack.edx_notes_api
+
+setup-edly-locally: ## Setup Edly Multisite Devstack Locally (Juniper)
+	$(WINPTY) bash ./setup-edly-locally.sh
+	@echo $(YELLOW) Setup Edly Multisite Devstack Locally Complete.
