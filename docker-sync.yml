@@ -48,6 +48,20 @@ syncs:
   frontend-app-learning-sync:
     host_disk_mount_mode: 'cached'
     src: '../frontend-app-learning/'
+
+  course-authoring-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-course-authoring/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  source-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../src/'
+    sync_excludes: [ '.git', '.idea' ]
+
+  frontend-app-library-authoring-sync:
+    host_disk_mount_mode: 'cached'
+    src: '../frontend-app-library-authoring/'
     sync_excludes: [ '.git', '.idea' ]
   wordpress-sync:
     host_disk_mount_mode: 'cached'

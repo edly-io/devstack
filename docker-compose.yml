@@ -61,14 +61,20 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/logs
 
   # This is meant to be used to test ES upgrades so that we do not have to upgrade all of our services to ES5 at once.
-  elasticsearch-5:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch-5"
-    hostname: elasticsearch-5.devstack.edx
-    image: elasticsearch:5.6.16
+  elasticsearch7:
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.elasticsearch7"
+    hostname: elasticsearch7.devstack.edx
+    image: elasticsearch:7.8.1
     networks:
       default:
         aliases:
-          - edx.devstack.elasticsearch-5
+          - edx.devstack.elasticsearch7
+    volumes:
+      - elasticsearch7_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
   firefox:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.firefox"
@@ -156,6 +162,10 @@ services:
         aliases:
           - edx.devstack.redis
     command: redis-server --requirepass password
+    networks:
+      default:
+        aliases:
+          - edx.devstack.redis
 
   # ================================================
   # edX services
@@ -166,7 +176,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.credentials"
     hostname: credentials.devstack.edx
     depends_on:
-      - mysql
+      - mysql57
       - memcached
       - lms
     # Allows attachment to the credentials service using 'docker attach <containerID>'.
@@ -174,7 +184,7 @@ services:
     tty: true
     environment:
       CACHE_LOCATION: edx.devstack.memcached:12211
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -191,13 +201,16 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.discovery"
     hostname: discovery.devstack.edx
     depends_on:
-      - mysql
+      - mysql57
       - elasticsearch
       - memcached
     # Allows attachment to the discovery service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
     environment:
+      # This next DB_MIGRATION_HOST line can be removed once edx/configuration has been updated with this value for
+      # a while and most people have had a chance to do a "make pull" to get the latest images.
+      DB_MIGRATION_HOST: edx.devstack.mysql57
       TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -216,7 +229,7 @@ services:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.ecommerce"
     hostname: ecommerce.devstack.edx
     depends_on:
-      - mysql
+      - mysql57
       - memcached
       - lms
       - discovery
@@ -235,13 +248,15 @@ services:
       - "18130:18130"
 
   edx_notes_api:
-    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 2; done'
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edx_notes_api"
+    # Sleep as a part of start up to give elasticsearch enough time to start up.
+    command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 4; done'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.edxnotesapi"
     hostname: edx_notes_api.devstack.edx
     depends_on:
       - devpi
-      - elasticsearch
-      - mysql
+      - elasticsearch7
+      - lms
+      - mysql57
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
     networks:
       default:
@@ -251,14 +266,14 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
+      DB_HOST: "edx.devstack.mysql57"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
       DB_USER: "notes001"
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch7:9200"
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
@@ -269,6 +284,8 @@ services:
       - memcached
       - elasticsearch
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
+    stdin_open: true
+    tty: true
     networks:
       default:
         aliases:
@@ -282,7 +299,7 @@ services:
     hostname: lms.devstack.edx
     depends_on:
       - devpi
-      - mysql
+      - mysql57
       - memcached
       - mongo
       - discovery
@@ -304,6 +321,7 @@ services:
       default:
         aliases:
           - edx.devstack.lms
+          - lms.devstack.edx
     ports:
       - "18000:18000"
       - "19876:19876" # JS test debugging
@@ -321,7 +339,7 @@ services:
     depends_on:
       - discovery
       - lms
-      - mysql
+      - mysql57
       - memcached
       - redis
       - registrar-worker
@@ -329,7 +347,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -343,7 +361,7 @@ services:
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/registrar:latest
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -359,12 +377,12 @@ services:
     hostname: registrar-worker.devstack.edx
     depends_on:
       - lms
-      - mysql
+      - mysql57
       - redis
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.devstack.mysql57
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
@@ -377,7 +395,7 @@ services:
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
-    image: edxops/registrar:latest
+    image: edxops/registrar:${OPENEDX_RELEASE:-latest}
     networks:
       default:
         aliases:
@@ -393,7 +411,7 @@ services:
     hostname: studio.devstack.edx
     depends_on:
       - devpi
-      - mysql
+      - mysql57
       - memcached
       - mongo
       - firefox
@@ -414,6 +432,7 @@ services:
       default:
         aliases:
           - edx.devstack.studio
+          - studio.devstack.edx
     ports:
       - "18010:18010"
       - "19877:19877" # JS test debugging
@@ -430,12 +449,30 @@ services:
   # for micro-frontends in devtack.
   # ==========================================================================
 
+  frontend-app-learning:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-learning'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-learning
+    ports:
+      - "2000:2000"
+    depends_on:
+      - lms
+    environment:
+      - NODE_ENV=development
+
   frontend-app-publisher:
     container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
     extends:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-publisher'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-publisher"
     networks:
       default:
         aliases:
@@ -451,6 +488,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/gradebook'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.gradebook"
     networks:
       default:
         aliases:
@@ -466,6 +504,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/program-console'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.program-console"
     networks:
       default:
         aliases:
@@ -476,22 +515,36 @@ services:
       - lms
       - registrar
 
-  frontend-app-learning:
-    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-learning"
+  course-authoring:
     extends:
       file: microfrontend.yml
       service: microfrontend
-    working_dir: '/edx/app/frontend-app-learning'
+    working_dir: '/edx/app/frontend-app-course-authoring'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.course-authoring"
     networks:
       default:
         aliases:
-          - edx.devstack.frontend-app-learning
+          - edx.devstack.course-authoring
     ports:
-      - "2000:2000"
+      - "2001:2001"
+    depends_on:
+      - studio
+
+  frontend-app-library-authoring:
+    extends:
+      file: microfrontend.yml
+      service: microfrontend
+    working_dir: '/edx/app/frontend-app-library-authoring'
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.frontend-app-library-authoring"
+    networks:
+      default:
+        aliases:
+          - edx.devstack.frontend-app-library-authoring
+    ports:
+      - "3001:3001"
     depends_on:
       - lms
-    environment:
-      - NODE_ENV=development
+      - studio
 
   wordpress:
     container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress
@@ -508,21 +561,12 @@ services:
     volumes:
        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
-  panel_frontend:
-    command: bash -c 'npm install && npm run start'
-    container_name: edly.devstack.panel_frontend
-    working_dir: '/var/www/html/edly-panel-frontend'
-    stdin_open: true
-    tty: true
-    image: node:10
-    ports:
-      - "3030:3030"
-
 volumes:
   discovery_assets:
   edxapp_lms_assets:
   edxapp_studio_assets:
   elasticsearch_data:
+  elasticsearch7_data:
   mongo_data:
   mysql_data:
   mysql57_data:
