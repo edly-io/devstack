@@ -450,11 +450,25 @@ variables to the following values.
 
 WordPress Setup
 ---------------
+Run provision command for WordPress.
+
+.. code:: sh
+
+    make dev.wordpress.provision
+
 Gulp should be installed before proceeding further (you may need to skip sudo if you are using nvm).
 
 .. code:: sh
 
     sudo npm i -g gulp-cli
+
+Before install PHP we need to install brew (if not installed) in devstack using below steps. (After brew install it will provide two commands to run that will add brew in your path). If brew is already installed, skip below commands
+
+.. code:: sh
+    apt update
+    apt-get install build-essential
+    apt install git -y
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 1. Install php and composer in host machine.
 
@@ -468,15 +482,18 @@ Gulp should be installed before proceeding further (you may need to skip sudo if
 
 .. code:: sh
 
-    brew install php@7.4
+    brew tap shivammathur/php
+    brew install shivammathur/php/php@7.4
     curl -s https://getcomposer.org/installer | php
     sudo mv composer.phar /usr/local/bin/composer
 
-then install composer in wordpress container.
+then install composer in wordpress container. After make wordpress-shell, install brew again as we done in previous step in devstack folder.
 
 .. code:: sh
 
     make wordpress-shell
+    brew tap shivammathur/php
+    brew install shivammathur/php/php@7.4
     curl -s https://getcomposer.org/installer | php
     mv composer.phar /usr/local/bin/composer
 
