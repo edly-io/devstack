@@ -440,6 +440,7 @@ services:
       # - "18131:18131"
     volumes:
       - edxapp_studio_assets:/edx/var/edxapp/staticfiles/
+      - $HOME/.ssh:/root/.ssh
 
   # ==========================================================================
   # edX Microfrontends
@@ -547,7 +548,7 @@ services:
       - studio
 
   wordpress:
-    container_name: edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress
+    container_name: "edx.${COMPOSE_PROJECT_NAME:-devstack}.wordpress"
     image: wordpress
     environment:
           WORDPRESS_DB_HOST: edx.devstack.mysql

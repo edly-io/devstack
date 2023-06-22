@@ -42,13 +42,13 @@ non_release_repos=(
 )
 
 ssh_repos=(
-    "git@github.com:edx/course-discovery.git"
-    "git@github.com:edx/credentials.git"
+    "git@github.com:edly-io/course-discovery.git"
+    "git@github.com:edly-io/credentials.git"
     "git@github.com:edx/cs_comments_service.git"
-    "git@github.com:edx/ecommerce.git"
+    "git@github.com:edly-io/ecommerce.git"
     "git@github.com:edx/edx-e2e-tests.git"
     "git@github.com:edx/edx-notes-api.git"
-    "git@github.com:edx/edx-platform.git"
+    "git@github.com:edly-io/edx-platform.git"
     "git@github.com:edx/xqueue.git"
     "git@github.com:edx/frontend-app-gradebook.git"
     "git@github.com:edx/frontend-app-publisher.git"
@@ -160,7 +160,8 @@ clone ()
 
 clone_ssh ()
 {
-    _clone "${ssh_repos[@]}"
+    _clone "${ssh_repos[@]}" "${edly_repos[@]}"
+    _checkout "${ssh_repos[@]}"
 }
 
 clone_private ()
