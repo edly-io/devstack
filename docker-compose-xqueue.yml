@@ -25,4 +25,8 @@ services:
           - edx.devstack.xqueue_consumer
     volumes:
       - ${DEVSTACK_WORKSPACE}/xqueue:/edx/app/xqueue/xqueue:cached
+    networks:
+      default:
+        aliases:
+          - edx.devstack.xqueue_consumer
     # depends_on: even though we need mysql, we can't refer to it because it's started in the other compose file

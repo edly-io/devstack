@@ -10,11 +10,11 @@ NC='\033[0m' # No Color
 export MONGO_VERSION=3.4.24
 
 echo -e "${GREEN}Sarting Mongo ${MONGO_VERSION}${NC}"
-docker-compose up -d mongo
+make dev.up.mongo
 mongo_container="$(make -s dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker exec "$mongo_container" bash -c 'mongo --eval "printjson(db.serverStatus())" &> /dev/null'
+until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
 do
     if docker logs "$mongo_container" | grep -q "BadValue: Invalid value for version, found 3.6, expected '3.4' or '3.2'"; then
         echo -e "${YELLOW}Already upgraded to Mongo 3.6, exiting${NC}"
@@ -25,8 +25,8 @@ do
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
-MONGO_VERSION_COMPAT=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet \
+MONGO_VERSION_LIVE=$(docker exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
+MONGO_VERSION_COMPAT=$(docker exec -it "$mongo_container" mongo --quiet \
     --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"
@@ -43,20 +43,21 @@ export MONGO_VERSION=3.6.17
 
 echo
 echo -e "${GREEN}Restarting Mongo on version ${MONGO_VERSION}${NC}"
-docker-compose up -d mongo
+make dev.up.mongo
+mongo_container="$(make -s dev.print-container.mongo)"
 
 mongo_container="$(make -s dev.print-container.mongo)"
 
 echo -e "${GREEN}Waiting for MongoDB...${NC}"
-until docker-compose $DOCKER_COMPOSE_FILES exec mongo bash -c 'mongo --eval "printjson(db.serverStatus())" &> /dev/null'
+until docker exec "$mongo_container" mongo --eval 'db.serverStatus()' &> /dev/null
 do
     printf "."
     sleep 1
 done
 
 echo -e "${GREEN}MongoDB ready.${NC}"
-MONGO_VERSION_LIVE=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
-MONGO_VERSION_COMPAT=$(docker-compose $DOCKER_COMPOSE_FILES exec -it "$mongo_container" mongo --quiet \
+MONGO_VERSION_LIVE=$(docker exec -it "$mongo_container" mongo --quiet --eval "printjson(db.version())")
+MONGO_VERSION_COMPAT=$(docker exec -it "$mongo_container" mongo --quiet \
     --eval "printjson(db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )['featureCompatibilityVersion'])")
 echo -e "${GREEN}Mongo Server version: ${MONGO_VERSION_LIVE}${NC}"
 echo -e "${GREEN}Mongo FeatureCompatibilityVersion version: ${MONGO_VERSION_COMPAT}${NC}"

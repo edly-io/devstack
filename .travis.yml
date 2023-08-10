@@ -15,12 +15,11 @@ env:
     - DEVSTACK_WORKSPACE=/tmp
     - SHALLOW_CLONE=1
   matrix:
-    - SERVICES=lms+discovery+forum
-    - SERVICES=lms+registrar
+    - SERVICES=discovery+lms+forum  # provision.sh should ensure LMS provisions first.
+    - SERVICES=registrar+lms
     - SERVICES=ecommerce
     - SERVICES=edx_notes_api
     - SERVICES=credentials
-    - SERVICES=analyticspipeline
     - SERVICES=xqueue
     - SERVICES=marketing
 
@@ -35,11 +34,11 @@ before_install:
   - docker version
   - docker-compose --version
   - make requirements
-  - make dev.clone
+  - make dev.clone.https
   - make dev.pull."$SERVICES"
 
 script:
   - set -e  # If one of these commands fails, exit immediately.
-  - make dev.provision.services."$SERVICES"
+  - make dev.provision."$SERVICES"
   - make dev.up."$SERVICES"
   - make dev.check."$SERVICES"

@@ -29,33 +29,35 @@ repos=(
     "https://github.com/edx/edx-notes-api.git"
     "git@github.com:edly-io/edx-platform.git"
     "https://github.com/edx/xqueue.git"
-    "https://github.com/edx/edx-analytics-pipeline.git"
     "https://github.com/edx/frontend-app-gradebook.git"
     "https://github.com/edx/frontend-app-publisher.git"
 )
 
 non_release_repos=(
+    "https://github.com/edx/frontend-app-course-authoring.git"
     "https://github.com/edx/frontend-app-learning.git"
+    "https://github.com/edx/frontend-app-library-authoring.git"
     "https://github.com/edx/registrar.git"
     "https://github.com/edx/frontend-app-program-console.git"
 )
 
 ssh_repos=(
-    "git@github.com:edx/course-discovery.git"
-    "git@github.com:edx/credentials.git"
+    "git@github.com:edly-io/course-discovery.git"
+    "git@github.com:edly-io/credentials.git"
     "git@github.com:edx/cs_comments_service.git"
-    "git@github.com:edx/ecommerce.git"
+    "git@github.com:edly-io/ecommerce.git"
     "git@github.com:edx/edx-e2e-tests.git"
     "git@github.com:edx/edx-notes-api.git"
-    "git@github.com:edx/edx-platform.git"
+    "git@github.com:edly-io/edx-platform.git"
     "git@github.com:edx/xqueue.git"
-    "git@github.com:edx/edx-analytics-pipeline.git"
     "git@github.com:edx/frontend-app-gradebook.git"
     "git@github.com:edx/frontend-app-publisher.git"
 )
 
 non_release_ssh_repos=(
+    "git@github.com:edx/frontend-app-course-authoring.git"
     "git@github.com:edx/frontend-app-learning.git"
+    "git@github.com:edx/frontend-app-library-authoring.git"
     "git@github.com:edx/registrar.git"
     "git@github.com:edx/frontend-app-program-console.git"
 )
@@ -158,7 +160,8 @@ clone ()
 
 clone_ssh ()
 {
-    _clone "${ssh_repos[@]}"
+    _clone "${ssh_repos[@]}" "${edly_repos[@]}"
+    _checkout "${ssh_repos[@]}"
 }
 
 clone_private ()
@@ -175,12 +178,15 @@ reset ()
         name="${BASH_REMATCH[1]}"
 
         if [ -d "$name" ]; then
-            cd "$name";git reset --hard HEAD;git checkout master;git reset --hard origin/master;git pull;cd "$currDir"
+            (cd "$name"; git checkout -q master && git pull -q --ff-only) || {
+                echo >&2 "Failed to reset $name repo. Exiting."
+                echo >&2 "Please go to the repo and clean up any issues that are keeping 'git checkout master' and 'git pull' from working."
+                exit 1
+            }
         else
             printf "The [%s] repo is not cloned. Continuing.\n" "$name"
         fi
     done
-    cd - &> /dev/null
 }
 
 status ()
