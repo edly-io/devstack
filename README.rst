@@ -204,9 +204,9 @@ Also, turn off git permission tracking globally.
 
     git clone git@github.com:edly-io/devstack.git
     cd devstack
-    git checkout edly/j
-    export OPENEDX_RELEASE=juniper.master
-    export COMPOSE_PROJECT_NAME=devstack-juniper.master
+    git checkout edly/k
+    export OPENEDX_RELEASE=koa.master
+    export COMPOSE_PROJECT_NAME=devstack-koa.master
     git config --global core.fileMode false
 
 4. Install the requirements inside of a `Python virtualenv`_.
@@ -226,7 +226,7 @@ Also, turn off git permission tracking globally.
 
    .. code:: sh
 
-       make dev.clone  # or, `make dev.clone.https` if you don't have SSH keys set up.
+       make dev.clone
 
    You may customize where the local repositories are found by setting the
    ``DEVSTACK_WORKSPACE`` environment variable.
@@ -251,32 +251,32 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../edx-platform
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 9. Go into `ecommerce` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../ecommerce
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 10. Go into `course-discovery` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../course-discovery
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 11. Go into `credentials` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../credentials
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
     cd ../devstack
 
 12. Run the provision command, if you haven't already, to configure the various
