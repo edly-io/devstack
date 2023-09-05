@@ -131,8 +131,8 @@ services:
       default:
         aliases:
           - edx.devstack.mysql
-    ports:
-      - "3506:3306"
+    # ports:
+    #   - "3506:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -148,8 +148,8 @@ services:
       default:
         aliases:
           - edx.devstack.mysql57
-    # ports:
-    #   - "3506:3306"
+    ports:
+      - "3506:3306"
     volumes:
       - mysql57_data:/var/lib/mysql
 
