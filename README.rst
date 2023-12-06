@@ -418,9 +418,9 @@ variables to the following values.
 .. code:: sh
 
     paver update_assets
-
-4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-5. Restart lms container.
+4. You need to comment out xblock-pdf repo in requirements/development.txt or you can downgrade setuptools in both lms and studio by this command pip install setuptools==65.0
+5. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+6. Restart lms container.
 
 .. code:: sh
 
