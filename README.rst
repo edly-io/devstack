@@ -55,7 +55,7 @@ Table of Contents
 Where to Find Help
 ------------------
 
-There are a number of places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure that you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
+There are several places to get help, including mailing lists and real-time chat. Please choose an appropriate venue for your question. This helps ensure you get good prompt advice, and keeps discussion focused. For details of your options, see the `Community`_ pages.
 
 Prerequisites
 -------------
@@ -63,15 +63,18 @@ Prerequisites
 You will need to have the following installed:
 
 - make
-- Python 3
+- Python 3 
+    - brew cleanup pyenv
+    - brew install pyenv
+    - pyenv virtualenv 3.6.5 vm_name
 - Docker
 
 This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
-settings.  Don't forget to restore your memory setting and be prepared to
-provision.
+settings.  Don't forget to restore your memory settings and be prepared to
+make provisions.
 
 For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are *not* supported.
@@ -83,7 +86,7 @@ a minimum of 2 CPUs, 8GB of memory, and a disk image size of 96GB does work.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
-**NOTE:** After installing docker, user must be added to user group ``docker`` (Not required for MAC)
+**NOTE:** After installing docker, the user must be added to the user group ``docker`` (Not required for MAC)
 
 .. code:: sh
 
@@ -106,7 +109,7 @@ If you are using Linux, use the ``overlay2`` storage driver, kernel version
 Please note
 ~~~~~~~~~~~
 
-You should run all ``make`` commands described below on your local machinge, *not*
+You should run all ``make`` commands described below on your local machine, *not*
 from within a Virtual Machine, as these commands are meant to stand up a VM-like environment using
 Docker containers.
 
@@ -118,7 +121,7 @@ Using the Latest Images
 -----------------------
 
 **NOTE:** LMS is now using MySql 5.7 by default, you have to run  ``make dev.pull.lms``  and  ``make dev.provision.lms``  (more details in `Getting Started`_)
-to fetch latest images and re provision local copies of databases in order for an existing devstack setup to keep working.
+to fetch the latest images and re-provision local copies of databases for an existing dev stack setup to keep working.
 
 By default, these instructions will install the master branch. If you want to install a named release instead (e.g. juniper.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images. You can learn more about named releases in the `official documentation <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/named_releases.html>`_.
 
@@ -160,9 +163,9 @@ Roadmap
 
 This repository is in sustained status. The goal is to deprecate this codebase and move the development environment setup into the repos with the application code.
 
-Documentation for future of devstack can be found at: `decentralized devstack`_
+Documentation for the future of devstack can be found at: `decentralized devstack`_
 
-Documentation for first prototype of decentralized devstack can be found at: `decentralized devstack workflows`_
+Documentation for prototype of decentralized devstack can be found at: `decentralized devstack workflows`_
 
 .. _decentralized devstack: https://github.com/edx/open-edx-proposals/blob/master/oeps/oep-0005/decisions/0002-why-decentralized-devstack.rst
 .. _decentralized devstack workflows: https://github.com/edx/enterprise-catalog/blob/master/docs/decentralized_devstack_workflows.rst
