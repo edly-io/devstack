@@ -120,7 +120,7 @@ Using the Latest Images
 **NOTE:** LMS is now using MySql 5.7 by default, you have to run  ``make dev.pull.lms``  and  ``make dev.provision.lms``  (more details in `Getting Started`_)
 to fetch latest images and re provision local copies of databases in order for an existing devstack setup to keep working.
 
-By default, these instructions will install the master branch. If you want to install a named release instead (e.g. juniper.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images. You can learn more about named releases in the `official documentation <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/named_releases.html>`_.
+By default, these instructions will install the master branch. If you want to install a named release instead (e.g. koa.master), follow the steps in `How do I run the images for a named Open edX release?`_ before pulling the docker images. You can learn more about named releases in the `official documentation <https://edx.readthedocs.io/projects/edx-developer-docs/en/latest/named_releases.html>`_.
 
 New images for our services are published frequently.  Assuming that you've followed the steps in `Getting Started`_
 below, run the following sequence of commands if you want to use the most up-to-date versions of *all* default devstack images.
@@ -197,16 +197,16 @@ versions.
     mkdir edly
     cd edly
 
-3. Clone Edly devstack and checkout ``edly/j`` branch and export ``OPENEDX_RELEASE`` environment variable.
+3. Clone Edly devstack and checkout ``edly/k`` branch and export ``OPENEDX_RELEASE`` environment variable.
 Also, turn off git permission tracking globally.
 
 .. code:: sh
 
     git clone git@github.com:edly-io/devstack.git
     cd devstack
-    git checkout edly/j
-    export OPENEDX_RELEASE=juniper.master
-    export COMPOSE_PROJECT_NAME=devstack-juniper.master
+    git checkout edly/k
+    export OPENEDX_RELEASE=koa.master
+    export COMPOSE_PROJECT_NAME=devstack-koa.master
     git config --global core.fileMode false
 
 4. Install the requirements inside of a `Python virtualenv`_.
@@ -251,32 +251,32 @@ Also, turn off git permission tracking globally.
 .. code:: sh
 
     cd ../edx-platform
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 9. Go into `ecommerce` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../ecommerce
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 10. Go into `course-discovery` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../course-discovery
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
 
 11. Go into `credentials` directory and checkout to edly branch.
 
 .. code:: sh
 
     cd ../credentials
-    git checkout develop-juniper
-    git pull origin develop-juniper
+    git checkout develop-koa
+    git pull origin develop-koa
     cd ../devstack
 
 12. Run the provision command, if you haven't already, to configure the various
@@ -386,7 +386,7 @@ Setup Edly Open edX theme
 
     git clone git@github.com:edly-io/edly-edx-themes.git
 
-4. Checkout to develop-juniper branch if its not already checked out.
+4. Checkout to develop-koa branch if its not already checked out.
 5. Copy St-lutherx, st-normanx, adroit and gestalt folders to ``edx/edx-platform/themes`` directory.
 
 
@@ -625,13 +625,13 @@ Setup Multisite for Open edX & Wordpress
 ----------------------------------------
 
 Here is the link to setup Open edX multisite:
-https://edlyio.atlassian.net/wiki/spaces/CE/pages/1505558529/Setup+Edly+Multisite+Devstack+Locally+Juniper
+https://edlyio.atlassian.net/wiki/spaces/CE/pages/2795405313/Setup+Edly+Devstack+Locally+Koa
 
 Setting up edly panel
 ---------------------
 
 1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the
-edly devstack juniper branch.
+edly devstack koa branch.
 2. Clone edly panel backend locally in a separate folder than edly.
 
 .. code:: sh
@@ -639,7 +639,7 @@ edly devstack juniper branch.
     mkdir ~/workspace/edly-panel-backend
     cd ~/workspace/edly-panel-backend
 
-3. Follow all the steps from https://github.com/edly-io/edly-panel-backend/tree/develop-juniper
+3. Follow all the steps from https://github.com/edly-io/edly-panel-backend/tree/develop-koa
 4. Follow Step 4 onwards from this link. https://edlyio.atlassian.net/wiki/spaces/PI/pages/297500692/How+to+setup+Edly+Panel
 **NOTE** If you have already installed the ``edly-panel-edx-app``, skip step 11.
 
@@ -969,10 +969,10 @@ Switch between your Devstack releases by doing the following:
 
 **NOTE:** Additional instructions on switching releases using ``direnv`` can be found in `How do I switch releases using 'direnv'?`_ section.
 
-Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-juniper.master** name represents the ``COMPOSE_PROJECT_NAME``.
+Examples of Docker Service Names After Setting the ``COMPOSE_PROJECT_NAME`` variable. Notice that the **devstack-koa.master** name represents the ``COMPOSE_PROJECT_NAME``.
 
--  edx.devstack-juniper.master.lms
--  edx.devstack-juniper.master.mysql
+-  edx.devstack-koa.master.lms
+-  edx.devstack-koa.master.mysql
 
 Each instance has an isolated set of databases. This could, for example, be used to quickly switch between versions of Open edX without hitting as many issues with migrations, data integrity, etc.
 
@@ -1002,11 +1002,11 @@ Make sure that you have setup each Open edX release in separate directories usin
 
     .. code:: sh
 
-        # You should see something like the following after successfully enabling 'direnv' for the Juniper release.
+        # You should see something like the following after successfully enabling 'direnv' for the koa release.
 
-        direnv: loading ~/open-edx/devstack.juniper/.envrc
+        direnv: loading ~/open-edx/devstack.koa/.envrc
         direnv: export +DEVSTACK_WORKSPACE +OPENEDX_RELEASE +VIRTUAL_ENV ~PATH
-        (venv)username@computer-name devstack.juniper %
+        (venv)username@computer-name devstack.koa %
 
 **NOTE:** Setting of the ``OPENEDX_RELEASE`` should have been handled within the ``.envrc`` file for named releases only and should not be defined for the ``master`` release.
 
@@ -1020,7 +1020,7 @@ We recommend separating the named releases into different directories, for clari
 
         /Users/<username>/open-edx – root directory for platform development
         |_ ./devstack.master  – directory containing all repository information related to the main development release.
-        |_ ./devstack.juniper – directory containing all repository information related to the Juniper release.
+        |_ ./devstack.koa – directory containing all repository information related to the koa release.
 
 #. Install `direnv` using instructions on https://direnv.net/. Below you will find additional setup at the time of this writing so refer to latest of `direnv` site for additional configuration needed.
 
@@ -1102,15 +1102,15 @@ We recommend separating the named releases into different directories, for clari
     .. code:: sh
 
         # Open edX named release project directory root.
-        ## <project-path>/devstack.juniper/.envrc
+        ## <project-path>/devstack.koa/.envrc
 
         # https://discuss.openedx.org/t/docker-devstack-multiple-releases-one-machine/1902/10
 
         # This is handled when OPENEDX_RELEASE is set. Leaving this in for manual override.
-        # export COMPOSE_PROJECT_NAME=devstack-juniper
+        # export COMPOSE_PROJECT_NAME=devstack-koa
 
         export DEVSTACK_WORKSPACE="$(pwd)"
-        export OPENEDX_RELEASE=juniper.master
+        export OPENEDX_RELEASE=koa.master
         export VIRTUAL_ENV="$(pwd)/devstack/venv"
 
         # https://github.com/direnv/direnv/wiki/Python#virtualenv
@@ -1909,10 +1909,10 @@ Changing the Docker Compose Project Name
 The ``COMPOSE_PROJECT_NAME`` variable is used to define Docker namespaced volumes
 and network based on this value, so changing it will give you a separate set of databases.
 This is handled for you automatically by setting the ``OPENEDX_RELEASE`` environment variable in ``options.mk``
-(e.g. ``COMPOSE_PROJECT_NAME=devstack-juniper.master``. Should you want to manually override this, edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
+(e.g. ``COMPOSE_PROJECT_NAME=devstack-koa.master``. Should you want to manually override this, edit the ``options.local.mk`` in the root of this repo and create the file if it does not exist. Change the devstack project name by adding the following line:
    ``COMPOSE_PROJECT_NAME=<your-alternate-devstack-name>`` (e.g. ``COMPOSE_PROJECT_NAME=secondarydevstack``)
 
-As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``juniper.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-juniper.master`` instead of ``devstack``.
+As a specific example, if ``OPENEDX_RELEASE`` is set in your environment as ``koa.master``, then ``COMPOSE_PROJECT_NAME`` will default to ``devstack-koa.master`` instead of ``devstack``.
 
 
 .. _Docker Compose: https://docs.docker.com/compose/
